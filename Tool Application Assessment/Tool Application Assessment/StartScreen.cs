@@ -9,22 +9,11 @@ using System.Windows.Forms;
 
 namespace Tool_Application_Assessment
 {
-    public partial class Start : Form
+    public partial class StartScreen : Form
     {
-        public Start()
+        public StartScreen()
         {
             InitializeComponent();
-        }
-
-        private void OnMenuHover(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void OnMenuExit(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -1,9 +1,0 @@
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\bin\Debug\Tool Application Assessment.exe
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\bin\Debug\Tool Application Assessment.pdb
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool Application Assessment.csprojAssemblyReference.cache
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool_Application_Assessment.Properties.Resources.resources
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool Application Assessment.csproj.GenerateResource.cache
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool Application Assessment.csproj.CoreCompileInputs.cache
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool Application Assessment.exe
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool Application Assessment.pdb
-C:\AIE\Tool Application Assessment\Tool Application Assessment\Tool Application Assessment\obj\Debug\Tool_Application_Assessment.Start.resources

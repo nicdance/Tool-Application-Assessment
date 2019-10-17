@@ -44,14 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Start.cs">
+    <Compile Include="MapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Start.Designer.cs">
-      <DependentUpon>Start.cs</DependentUpon>
+    <Compile Include="MapEditor.Designer.cs">
+      <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartScreen.Designer.cs">
+      <DependentUpon>StartScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TileMapEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TileMapEditor.Designer.cs">
+      <DependentUpon>TileMapEditor.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MapEditor.resx">
+      <DependentUpon>MapEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -61,8 +76,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Start.resx">
-      <DependentUpon>Start.cs</DependentUpon>
+    <EmbeddedResource Include="StartScreen.resx">
+      <DependentUpon>StartScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TileMapEditor.resx">
+      <DependentUpon>TileMapEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
