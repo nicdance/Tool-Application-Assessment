@@ -44,14 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImportTiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportTiles.Designer.cs">
+      <DependentUpon>ImportTiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MapEditor.Designer.cs">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapTile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpriteSheet.cs" />
     <Compile Include="StartScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +72,9 @@
     <Compile Include="TileMapEditor.Designer.cs">
       <DependentUpon>TileMapEditor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ImportTiles.resx">
+      <DependentUpon>ImportTiles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </EmbeddedResource>

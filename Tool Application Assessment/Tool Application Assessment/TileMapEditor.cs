@@ -11,9 +11,13 @@ namespace Tool_Application_Assessment
 {
     public partial class TileMapEditor : Form
     {
+
+        public Spritesheet Spritesheet { get; set; }
+
         public TileMapEditor()
         {
             InitializeComponent();
+            Spritesheet = null;
         }
 
         private void OnMenuHover(object sender, EventArgs e)
@@ -34,8 +38,8 @@ namespace Tool_Application_Assessment
 
         private void CreateNewMap_Click(object sender, EventArgs e)
         {
-            int mapWidth = 15;
-            int mapHeight = 15;
+            int mapWidth = 20;
+            int mapHeight = 20;
 
 
             //Create new window
@@ -57,6 +61,16 @@ namespace Tool_Application_Assessment
         private void GettingStarted_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void importTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportTiles tileImport = new ImportTiles();
+
+            // Set MDI Marent
+            tileImport.MdiParent= this;
+
+            tileImport.Show();
         }
     }
 }

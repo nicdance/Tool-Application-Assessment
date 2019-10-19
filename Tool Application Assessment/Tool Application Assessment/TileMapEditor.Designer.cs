@@ -92,6 +92,7 @@
             this.importTilesToolStripMenuItem.Name = "importTilesToolStripMenuItem";
             this.importTilesToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.importTilesToolStripMenuItem.Text = "Import Tiles";
+            this.importTilesToolStripMenuItem.Click += new System.EventHandler(this.importTilesToolStripMenuItem_Click);
             // 
             // modifySelectedTileToolStripMenuItem
             // 
