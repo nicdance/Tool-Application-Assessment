@@ -19,6 +19,9 @@ namespace Tool_Application_Assessment
         int mapWidth = 0;
         int mapHeight = 0;
 
+
+        public PictureBox CurrentTile { get; private set; }
+
         public MapEditor()
         {
             InitializeComponent();
@@ -50,10 +53,68 @@ namespace Tool_Application_Assessment
                 MapPanel.Controls.Add(tile.Picture);
                 tile.Picture.Enabled = false;
             }
-
+            MapPanel.AllowDrop = true;
             MapPanel.MouseDown += new MouseEventHandler(OnTileClick);
             MapPanel.HorizontalScroll.Enabled = true;
             MapPanel.VerticalScroll.Enabled = true;
+        }
+
+        private void TileMouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox box = sender as PictureBox;
+            //Console.WriteLine(box.Location);
+            //Console.WriteLine(box.Image.ToString());
+            //var control = sender as Control;
+            // this.DoDragDrop(control.Name, DragDropEffects.Move);
+             this.DoDragDrop(box.Image, DragDropEffects.All);
+
+        }
+
+        private void PanelDragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+
+        private void panelDragDrop(object sender, DragEventArgs e)
+        {            
+            //Console.WriteLine("sender is" +((Panel)sender).Name);
+            //PictureBox box = (PictureBox)e.Data.GetData(typeof(PictureBox));
+            //Bitmap bmp = (Bitmap)e.Data.GetData(DataFormats.Bitmap);
+            // Console.WriteLine("e is" + box.Name);
+            //Control p = (Panel)sender;
+
+            //Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control;
+            //if (c != null)
+            //{
+            //    c.Location = this.MapPanel.PointToClient(new Point(e.X, e.Y));
+            //    this.MapPanel.Controls.Add(c);
+            //}
+            Point dragPoint = new Point(e.X,e.Y);
+            Console.WriteLine(dragPoint.ToString());
+
+            Point scrolledPoint = new Point(dragPoint.X - MapPanel.AutoScrollPosition.X,
+                                       dragPoint.Y - MapPanel.AutoScrollPosition.Y);
+            //int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size * mapWidth));
+            int tile = ((int)(dragPoint.X / size + dragPoint.Y / size * mapWidth));
+            Console.WriteLine("Tile: "+ tile);
+            //Bitmap image = new Bitmap("img\\green.png");
+            map[tile].Picture.Image = null;
+            map[tile].Picture.Image = (Image)e.Data.GetData(DataFormats.Bitmap);
+        }
+        private void TileBlockClicked(object sender, EventArgs e)
+        {
+            if (CurrentTile != null)
+                CurrentTile.BorderStyle = BorderStyle.None;
+            {
+
+            }
+            if (e.GetType() == typeof(MouseEventArgs))
+            {
+                PictureBox box = sender as PictureBox;
+                CurrentTile = box;
+                CurrentTile.BorderStyle = BorderStyle.Fixed3D;
+            }
         }
 
         void OnTileClick(object sender, MouseEventArgs e)
@@ -63,10 +124,8 @@ namespace Tool_Application_Assessment
             Console.WriteLine(scrolledPoint.ToString());
             int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size*mapWidth));
             Console.WriteLine(tile);
-            Console.WriteLine("Tile ID: " + map[tile].UniqueID);
-            Bitmap image = new Bitmap("img\\green.png");
             map[tile].Picture.Image = null;
-            map[tile].Picture.Image = image;
+            map[tile].Picture.Image = CurrentTile.Image;
 
         }
 
@@ -83,7 +142,9 @@ namespace Tool_Application_Assessment
                     box.Size = new Size(size, size);
                     box.SizeMode = PictureBoxSizeMode.Zoom;
                     box.Image = drawArea;
-                    tiles.Add(box);
+                    box.Enabled = true;
+                    box.MouseDown += new MouseEventHandler(TileMouseDown);
+                   // tiles.Add(box);
 
                     Graphics g = Graphics.FromImage(drawArea);
                     g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
@@ -98,44 +159,17 @@ namespace Tool_Application_Assessment
                     g.DrawImage(parent.Spritesheet.Image, dest, source, GraphicsUnit.Pixel);
 
                     box.Image = drawArea;
+
+                    box.MouseDown += new MouseEventHandler(TileBlockClicked);
                     g.Dispose();
 
                     tileFlowPanel.Controls.Add(box);
-
+                    //MapPanel.DragDrop += new DragEventHandler(panelDragDrop);
+                    //MapPanel.DragEnter += new DragEventHandler(PanelDragEnter);
                 }
-                /*
-                 * 
-                 * 
-                                    0 * (parent.Spritesheet.GridWidth + parent.Spritesheet.Spacing),
-                                    0 * (parent.Spritesheet.GridHeight + parent.Spritesheet.Spacing),
-
-
-                PictureBox box = new PictureBox();
-                Bitmap drawArea = new Bitmap(size,size);
-                box.Size = new Size(size, size);
-                box.SizeMode = PictureBoxSizeMode.Zoom;
-                box.Image = drawArea;
-                Graphics g = Graphics.FromImage(drawArea);
-                g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
-                
-                Rectangle dest = new Rectangle(0, 0,size,size);
-
-                Rectangle source = new Rectangle(
-                                0 * (parent.Spritesheet.GridWidth + parent.Spritesheet.Spacing),
-                                0 * (parent.Spritesheet.GridHeight + parent.Spritesheet.Spacing),
-                                parent.Spritesheet.GridWidth,
-                                parent.Spritesheet.GridHeight);
-                //source.Size = new Size(size,size);
-                g.DrawImage(parent.Spritesheet.Image, dest, source, GraphicsUnit.Pixel);
-
-                box.Image = drawArea;
-                g.Dispose();
-
-                tileFlowPanel.Controls.Add(box);
-                */
             }
         }
-        }
+    }
 
 
 

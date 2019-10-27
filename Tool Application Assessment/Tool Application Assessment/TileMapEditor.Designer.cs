@@ -30,11 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modifySelectedTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.welcomePanel = new System.Windows.Forms.Panel();
@@ -44,6 +39,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.HeadingLavel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifySelectedTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.welcomePanel.SuspendLayout();
             this.SuspendLayout();
@@ -51,11 +54,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadMapToolStripMenuItem,
-            this.newMapToolStripMenuItem,
-            this.saveMapToolStripMenuItem,
-            this.importTilesToolStripMenuItem,
-            this.modifySelectedTileToolStripMenuItem,
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.windowsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -64,42 +64,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // loadMapToolStripMenuItem
-            // 
-            this.loadMapToolStripMenuItem.Name = "loadMapToolStripMenuItem";
-            this.loadMapToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
-            this.loadMapToolStripMenuItem.Text = "Load Map";
-            // 
-            // newMapToolStripMenuItem
-            // 
-            this.newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
-            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.newMapToolStripMenuItem.Text = "New Map";
-            this.newMapToolStripMenuItem.ToolTipText = "Create new Map";
-            this.newMapToolStripMenuItem.Click += new System.EventHandler(this.CreateNewMap_Click);
-            // 
-            // saveMapToolStripMenuItem
-            // 
-            this.saveMapToolStripMenuItem.Enabled = false;
-            this.saveMapToolStripMenuItem.Name = "saveMapToolStripMenuItem";
-            this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.saveMapToolStripMenuItem.Text = "Save Map";
-            // 
-            // importTilesToolStripMenuItem
-            // 
-            this.importTilesToolStripMenuItem.Enabled = false;
-            this.importTilesToolStripMenuItem.Name = "importTilesToolStripMenuItem";
-            this.importTilesToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.importTilesToolStripMenuItem.Text = "Import Tiles";
-            this.importTilesToolStripMenuItem.Click += new System.EventHandler(this.importTilesToolStripMenuItem_Click);
-            // 
-            // modifySelectedTileToolStripMenuItem
-            // 
-            this.modifySelectedTileToolStripMenuItem.Enabled = false;
-            this.modifySelectedTileToolStripMenuItem.Name = "modifySelectedTileToolStripMenuItem";
-            this.modifySelectedTileToolStripMenuItem.Size = new System.Drawing.Size(125, 20);
-            this.modifySelectedTileToolStripMenuItem.Text = "Modify Selected Tile";
             // 
             // windowsToolStripMenuItem
             // 
@@ -190,6 +154,68 @@
             this.HeadingLavel.Text = "Welcome to the Epic Tile Map Editor";
             this.HeadingLavel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newMapToolStripMenuItem,
+            this.loadMapToolStripMenuItem,
+            this.saveMapToolStripMenuItem,
+            this.quitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newMapToolStripMenuItem
+            // 
+            this.newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
+            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newMapToolStripMenuItem.Text = "New Map";
+            this.newMapToolStripMenuItem.ToolTipText = "Create new Map";
+            this.newMapToolStripMenuItem.Click += new System.EventHandler(this.CreateNewMap_Click);
+            // 
+            // loadMapToolStripMenuItem
+            // 
+            this.loadMapToolStripMenuItem.Name = "loadMapToolStripMenuItem";
+            this.loadMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadMapToolStripMenuItem.Text = "Load Map";
+            // 
+            // saveMapToolStripMenuItem
+            // 
+            this.saveMapToolStripMenuItem.Enabled = false;
+            this.saveMapToolStripMenuItem.Name = "saveMapToolStripMenuItem";
+            this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveMapToolStripMenuItem.Text = "Save Map";
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Text = "Quit";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importTilesToolStripMenuItem,
+            this.modifySelectedTileToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // importTilesToolStripMenuItem
+            // 
+            this.importTilesToolStripMenuItem.Enabled = false;
+            this.importTilesToolStripMenuItem.Name = "importTilesToolStripMenuItem";
+            this.importTilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importTilesToolStripMenuItem.Text = "Import Tiles";
+            this.importTilesToolStripMenuItem.Click += new System.EventHandler(this.importTilesToolStripMenuItem_Click);
+            // 
+            // modifySelectedTileToolStripMenuItem
+            // 
+            this.modifySelectedTileToolStripMenuItem.Enabled = false;
+            this.modifySelectedTileToolStripMenuItem.Name = "modifySelectedTileToolStripMenuItem";
+            this.modifySelectedTileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modifySelectedTileToolStripMenuItem.Text = "Modify Selected Tile";
+            // 
             // TileMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,11 +239,6 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem saveMapToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadMapToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newMapToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importTilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modifySelectedTileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
         private System.Windows.Forms.Panel welcomePanel;
@@ -227,5 +248,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label HeadingLavel;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importTilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modifySelectedTileToolStripMenuItem;
     }
 }

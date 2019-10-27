@@ -121,8 +121,8 @@
             this.buttonLoad.Location = new System.Drawing.Point(546, 459);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(75, 23);
-            this.buttonLoad.TabIndex = 14;
-            this.buttonLoad.Text = "Load";
+            this.buttonLoad.TabIndex = 21;
+            this.buttonLoad.Text = " ";
             this.buttonLoad.UseVisualStyleBackColor = true;
             this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
@@ -131,7 +131,7 @@
             this.ImportButton.Location = new System.Drawing.Point(445, 459);
             this.ImportButton.Name = "ImportButton";
             this.ImportButton.Size = new System.Drawing.Size(75, 23);
-            this.ImportButton.TabIndex = 15;
+            this.ImportButton.TabIndex = 20;
             this.ImportButton.Text = "Import";
             this.ImportButton.UseVisualStyleBackColor = true;
             this.ImportButton.Click += new System.EventHandler(this.ImportButton_Click);
