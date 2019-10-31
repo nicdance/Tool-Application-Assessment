@@ -95,8 +95,9 @@
             this.MapPanel.Name = "MapPanel";
             this.MapPanel.Size = new System.Drawing.Size(520, 499);
             this.MapPanel.TabIndex = 6;
-            this.MapPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelDragDrop);
-            this.MapPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.PanelDragEnter);
+            this.MapPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapPanel_MouseDown);
+            this.MapPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapPanel_MouseMove);
+            this.MapPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MapPanel_MouseUp);
             // 
             // tileFlowPanel
             // 

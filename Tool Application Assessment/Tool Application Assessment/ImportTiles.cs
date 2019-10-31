@@ -17,6 +17,8 @@ namespace Tool_Application_Assessment
 
         public Point CurrentTile { get; private set; } = new Point();
 
+        public bool TilesLoaded { get; private set; } = false;
+
         public string Filename
         {
             get { return (Spritesheet != null) ? Spritesheet.Filename : string.Empty; }
@@ -27,7 +29,7 @@ namespace Tool_Application_Assessment
             InitializeComponent();
             pictureBox = new PictureBox();
             pictureBox.Location = new Point(0, 0);
-            pictureBox.MouseDown += new MouseEventHandler(PictureBoxClicked);
+           // pictureBox.MouseDown += new MouseEventHandler(PictureBoxClicked);
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
@@ -45,6 +47,7 @@ namespace Tool_Application_Assessment
                     drawArea = new Bitmap(pictureBox.Width, pictureBox.Height);
                     spritePanel.Controls.Add(pictureBox);
                     drawGrid();
+                    TilesLoaded = true;
                 }
             }
         }
@@ -89,38 +92,48 @@ namespace Tool_Application_Assessment
 
         private void textBoxWidth_TextChanged(object sender, EventArgs e)
         {
-            int width;
-            if (int.TryParse(textBoxWidth.Text, out width) == true)
-            {
-                Spritesheet.GridWidth = width;
-                drawGrid();
-            }
 
-            textBoxWidth.Text = Spritesheet.GridWidth.ToString();
+            if (TilesLoaded)
+            {
+                int width;
+                if (int.TryParse(textBoxWidth.Text, out width) == true)
+                {
+                    Spritesheet.GridWidth = width;
+                    drawGrid();
+                }
+
+                textBoxWidth.Text = Spritesheet.GridWidth.ToString();
+            }
         }
 
         private void textBoxHeight_TextChanged(object sender, EventArgs e)
         {
-            int height;
-            if (int.TryParse(textBoxHeight.Text, out height) == true)
+            if (TilesLoaded)
             {
-                Spritesheet.GridHeight = height;
-                drawGrid();
-            }
+                int height;
+                if (int.TryParse(textBoxHeight.Text, out height) == true)
+                {
+                    Spritesheet.GridHeight = height;
+                    drawGrid();
+                }
 
-            textBoxHeight.Text = Spritesheet.GridHeight.ToString();
+                textBoxHeight.Text = Spritesheet.GridHeight.ToString();
+            }
         }
 
         private void textBoxSpacing_TextChanged(object sender, EventArgs e)
         {
-            int spacing;
-            if (int.TryParse(textBoxSpacing.Text, out spacing) == true)
+            if (TilesLoaded)
             {
-                Spritesheet.Spacing = spacing;
-                drawGrid();
-            }
+                int spacing;
+                if (int.TryParse(textBoxSpacing.Text, out spacing) == true)
+                {
+                    Spritesheet.Spacing = spacing;
+                    drawGrid();
+                }
 
-            textBoxSpacing.Text = Spritesheet.Spacing.ToString();
+                textBoxSpacing.Text = Spritesheet.Spacing.ToString();
+            }
         }
 
         private void SpriteSheetForm_Shown(object sender, EventArgs e)
@@ -154,22 +167,62 @@ namespace Tool_Application_Assessment
 
         private void textBoxWide_TextChanged(object sender, EventArgs e)
         {
-            int wide;
-            if (int.TryParse(textBoxWide.Text, out wide) == true)
+            if (TilesLoaded)
             {
-                Console.WriteLine(wide);
-                Spritesheet.TilesWide = wide;
+                int wide;
+                if (int.TryParse(textBoxWide.Text, out wide) == true)
+                {
+                    Console.WriteLine(wide);
+                    Spritesheet.TilesWide = wide;
+                }
             }
         }
 
         private void textBoxHigh_TextChanged(object sender, EventArgs e)
         {
-            int high;
-            if (int.TryParse(textBoxHigh.Text, out high) == true)
+            if (TilesLoaded)
             {
-                Console.WriteLine(high);
-                Spritesheet.TilesHigh = high;
+                if (TilesLoaded)
+                {
+                    int high;
+                    if (int.TryParse(textBoxHigh.Text, out high) == true)
+                    {
+                        Console.WriteLine(high);
+                        Spritesheet.TilesHigh = high;
+                    }
+                }
             }
+        }
+
+        private void spritePanel_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                Console.WriteLine("Drag Drop");
+                //target control will accept data here 
+                Panel destination = (Panel)sender;
+                String[] imagePaths = (String[])e.Data.GetData(DataFormats.FileDrop);
+                Bitmap bitmap = (Bitmap)e.Data.GetData(typeof(Bitmap));
+                Console.WriteLine(imagePaths);
+                Console.WriteLine(imagePaths[0]);
+                Spritesheet = new Spritesheet(imagePaths[0]);
+                Bitmap image = new Bitmap(imagePaths[0]);
+                pictureBox.Image = image;
+                pictureBox.Size = new Size(image.Width, image.Height);
+                drawArea = new Bitmap(pictureBox.Width, pictureBox.Height);
+                spritePanel.Controls.Add(pictureBox);
+                drawGrid();
+                TilesLoaded = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to Load File, File Must be a image.");
+            }
+        }
+
+        private void spritePanel_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
         }
     }
 }

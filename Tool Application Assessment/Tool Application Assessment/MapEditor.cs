@@ -12,7 +12,7 @@ namespace Tool_Application_Assessment
     public partial class MapEditor : Form
     {
         public int size = 64;
-       // Bitmap drawArea = null;
+        // Bitmap drawArea = null;
         //PictureBox[,] box;
         MapTile[] map;
         List<PictureBox> tiles = new List<PictureBox>();
@@ -21,6 +21,7 @@ namespace Tool_Application_Assessment
 
 
         public PictureBox CurrentTile { get; private set; }
+        public bool Painting { get; private set; } = false;
 
         public MapEditor()
         {
@@ -36,7 +37,7 @@ namespace Tool_Application_Assessment
             MapPanel.Padding = new Padding(0);
             Bitmap image = new Bitmap("img\\BlackSquare.png");
             map = new MapTile[width * height];
-            for (int i = 0; i < width*height; i++)
+            for (int i = 0; i < width * height; i++)
             {
                 int xPos = 0;
                 int yPos = 0;
@@ -48,7 +49,7 @@ namespace Tool_Application_Assessment
                 tile.Picture.Size = new Size(size, size);
                 tile.Picture.SizeMode = PictureBoxSizeMode.Zoom;
                 tile.Picture.Image = image;
-                tile.Picture.Location = new System.Drawing.Point((i%width)*size, ((int)i/height)*size);
+                tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)i / height) * size);
                 map[i] = tile;
                 MapPanel.Controls.Add(tile.Picture);
                 tile.Picture.Enabled = false;
@@ -62,46 +63,9 @@ namespace Tool_Application_Assessment
         private void TileMouseDown(object sender, MouseEventArgs e)
         {
             PictureBox box = sender as PictureBox;
-            //Console.WriteLine(box.Location);
-            //Console.WriteLine(box.Image.ToString());
-            //var control = sender as Control;
-            // this.DoDragDrop(control.Name, DragDropEffects.Move);
-             this.DoDragDrop(box.Image, DragDropEffects.All);
-
+            // this.DoDragDrop(box.Image, DragDropEffects.All);
         }
 
-        private void PanelDragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
-
-
-        private void panelDragDrop(object sender, DragEventArgs e)
-        {            
-            //Console.WriteLine("sender is" +((Panel)sender).Name);
-            //PictureBox box = (PictureBox)e.Data.GetData(typeof(PictureBox));
-            //Bitmap bmp = (Bitmap)e.Data.GetData(DataFormats.Bitmap);
-            // Console.WriteLine("e is" + box.Name);
-            //Control p = (Panel)sender;
-
-            //Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control;
-            //if (c != null)
-            //{
-            //    c.Location = this.MapPanel.PointToClient(new Point(e.X, e.Y));
-            //    this.MapPanel.Controls.Add(c);
-            //}
-            Point dragPoint = new Point(e.X,e.Y);
-            Console.WriteLine(dragPoint.ToString());
-
-            Point scrolledPoint = new Point(dragPoint.X - MapPanel.AutoScrollPosition.X,
-                                       dragPoint.Y - MapPanel.AutoScrollPosition.Y);
-            //int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size * mapWidth));
-            int tile = ((int)(dragPoint.X / size + dragPoint.Y / size * mapWidth));
-            Console.WriteLine("Tile: "+ tile);
-            //Bitmap image = new Bitmap("img\\green.png");
-            map[tile].Picture.Image = null;
-            map[tile].Picture.Image = (Image)e.Data.GetData(DataFormats.Bitmap);
-        }
         private void TileBlockClicked(object sender, EventArgs e)
         {
             if (CurrentTile != null)
@@ -119,13 +83,23 @@ namespace Tool_Application_Assessment
 
         void OnTileClick(object sender, MouseEventArgs e)
         {
-            Point scrolledPoint = new Point(e.X - MapPanel.AutoScrollPosition.X,
-                                       e.Y- MapPanel.AutoScrollPosition.Y);
-            Console.WriteLine(scrolledPoint.ToString());
-            int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size*mapWidth));
-            Console.WriteLine(tile);
-            map[tile].Picture.Image = null;
-            map[tile].Picture.Image = CurrentTile.Image;
+            try
+            {
+                if (CurrentTile != null)
+                {
+                    Point scrolledPoint = new Point(e.X - MapPanel.AutoScrollPosition.X,
+                                               e.Y - MapPanel.AutoScrollPosition.Y);
+                    int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size * mapWidth));
+                    map[tile].Picture.Image = null;
+                    map[tile].Picture.Image = CurrentTile.Image;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                //MessageBox.Show("");
+            }
 
         }
 
@@ -134,8 +108,8 @@ namespace Tool_Application_Assessment
             TileMapEditor parent = this.MdiParent as TileMapEditor;
             if (parent.Spritesheet != null)
             {
-                Console.WriteLine(parent.Spritesheet.TilesHigh+ ":"+ parent.Spritesheet.TilesWide);
-                for (int i = 0; i < parent.Spritesheet.TilesHigh* parent.Spritesheet.TilesWide; i++)
+                Console.WriteLine(parent.Spritesheet.TilesHigh + ":" + parent.Spritesheet.TilesWide);
+                for (int i = 0; i < parent.Spritesheet.TilesHigh * parent.Spritesheet.TilesWide; i++)
                 {
                     PictureBox box = new PictureBox();
                     Bitmap drawArea = new Bitmap(size, size);
@@ -144,7 +118,6 @@ namespace Tool_Application_Assessment
                     box.Image = drawArea;
                     box.Enabled = true;
                     box.MouseDown += new MouseEventHandler(TileMouseDown);
-                   // tiles.Add(box);
 
                     Graphics g = Graphics.FromImage(drawArea);
                     g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
@@ -164,31 +137,34 @@ namespace Tool_Application_Assessment
                     g.Dispose();
 
                     tileFlowPanel.Controls.Add(box);
-                    //MapPanel.DragDrop += new DragEventHandler(panelDragDrop);
-                    //MapPanel.DragEnter += new DragEventHandler(PanelDragEnter);
                 }
             }
         }
+
+        private void MapPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Painting = true;
+                OnTileClick(sender, e);
+            }
+        }
+
+        private void MapPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (Painting)
+            {
+                Painting = false;
+            }
+        }
+
+        private void MapPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Painting)
+            {
+                OnTileClick(sender, e);
+            }
+        }
     }
-
-
-
-
-    /*
-    Gets coords of current tile
-    CurrentTile = new Point(mouse.X / (Spritesheet.GridWidth + Spritesheet.Spacing), 
-                mouse.Y / (Spritesheet.GridHeight + Spritesheet.Spacing));
-
-
-            Rectangle source = new Rectangle(
-            layer.TileCoordinates.X * (spritesheet.GridWidth + spritesheet.Spacing),
-            layer.TileCoordinates.Y * (spritesheet.GridHeight + spritesheet.Spacing),
-            spritesheet.GridWidth,
-                    spritesheet.GridHeight);
-
-*/
-
-
-
 
 }

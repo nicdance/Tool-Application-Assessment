@@ -30,6 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifySelectedTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.welcomePanel = new System.Windows.Forms.Panel();
@@ -39,14 +47,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.HeadingLavel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modifySelectedTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.welcomePanel.SuspendLayout();
             this.SuspendLayout();
@@ -64,95 +64,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // windowsToolStripMenuItem
-            // 
-            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
-            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.windowsToolStripMenuItem.Text = "Windows";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.helpToolStripMenuItem.Text = "Help ?";
-            // 
-            // welcomePanel
-            // 
-            this.welcomePanel.Controls.Add(this.GettingStarted);
-            this.welcomePanel.Controls.Add(this.CreateNewMap);
-            this.welcomePanel.Controls.Add(this.LoadMap);
-            this.welcomePanel.Controls.Add(this.label1);
-            this.welcomePanel.Controls.Add(this.HeadingLavel);
-            this.welcomePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.welcomePanel.Location = new System.Drawing.Point(0, 24);
-            this.welcomePanel.Name = "welcomePanel";
-            this.welcomePanel.Size = new System.Drawing.Size(784, 537);
-            this.welcomePanel.TabIndex = 9;
-            // 
-            // GettingStarted
-            // 
-            this.GettingStarted.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.GettingStarted.BackColor = System.Drawing.SystemColors.Highlight;
-            this.GettingStarted.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GettingStarted.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.GettingStarted.Location = new System.Drawing.Point(282, 379);
-            this.GettingStarted.Name = "GettingStarted";
-            this.GettingStarted.Size = new System.Drawing.Size(202, 47);
-            this.GettingStarted.TabIndex = 11;
-            this.GettingStarted.Text = "Getting Started";
-            this.GettingStarted.UseVisualStyleBackColor = false;
-            // 
-            // CreateNewMap
-            // 
-            this.CreateNewMap.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.CreateNewMap.BackColor = System.Drawing.SystemColors.Highlight;
-            this.CreateNewMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CreateNewMap.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.CreateNewMap.Location = new System.Drawing.Point(282, 303);
-            this.CreateNewMap.Name = "CreateNewMap";
-            this.CreateNewMap.Size = new System.Drawing.Size(202, 47);
-            this.CreateNewMap.TabIndex = 10;
-            this.CreateNewMap.Text = "Create New Map";
-            this.CreateNewMap.UseVisualStyleBackColor = false;
-            this.CreateNewMap.Click += new System.EventHandler(this.CreateNewMap_Click);
-            // 
-            // LoadMap
-            // 
-            this.LoadMap.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.LoadMap.BackColor = System.Drawing.SystemColors.Highlight;
-            this.LoadMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LoadMap.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.LoadMap.Location = new System.Drawing.Point(282, 225);
-            this.LoadMap.Name = "LoadMap";
-            this.LoadMap.Size = new System.Drawing.Size(202, 47);
-            this.LoadMap.TabIndex = 9;
-            this.LoadMap.Text = "Load Exisiting Map";
-            this.LoadMap.UseVisualStyleBackColor = false;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(263, 173);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(250, 20);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Where would you like to start?";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // HeadingLavel
-            // 
-            this.HeadingLavel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.HeadingLavel.AutoSize = true;
-            this.HeadingLavel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeadingLavel.Location = new System.Drawing.Point(193, 111);
-            this.HeadingLavel.Name = "HeadingLavel";
-            this.HeadingLavel.Size = new System.Drawing.Size(399, 26);
-            this.HeadingLavel.TabIndex = 7;
-            this.HeadingLavel.Text = "Welcome to the Epic Tile Map Editor";
-            this.HeadingLavel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // fileToolStripMenuItem
             // 
@@ -178,6 +89,7 @@
             this.loadMapToolStripMenuItem.Name = "loadMapToolStripMenuItem";
             this.loadMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadMapToolStripMenuItem.Text = "Load Map";
+            this.loadMapToolStripMenuItem.Click += new System.EventHandler(this.LoadMap_Click);
             // 
             // saveMapToolStripMenuItem
             // 
@@ -215,6 +127,98 @@
             this.modifySelectedTileToolStripMenuItem.Name = "modifySelectedTileToolStripMenuItem";
             this.modifySelectedTileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modifySelectedTileToolStripMenuItem.Text = "Modify Selected Tile";
+            // 
+            // windowsToolStripMenuItem
+            // 
+            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
+            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.windowsToolStripMenuItem.Text = "Windows";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.helpToolStripMenuItem.Text = "Help ?";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.GettingStarted_Click);
+            // 
+            // welcomePanel
+            // 
+            this.welcomePanel.Controls.Add(this.GettingStarted);
+            this.welcomePanel.Controls.Add(this.CreateNewMap);
+            this.welcomePanel.Controls.Add(this.LoadMap);
+            this.welcomePanel.Controls.Add(this.label1);
+            this.welcomePanel.Controls.Add(this.HeadingLavel);
+            this.welcomePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.welcomePanel.Location = new System.Drawing.Point(0, 24);
+            this.welcomePanel.Name = "welcomePanel";
+            this.welcomePanel.Size = new System.Drawing.Size(784, 537);
+            this.welcomePanel.TabIndex = 9;
+            // 
+            // GettingStarted
+            // 
+            this.GettingStarted.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.GettingStarted.BackColor = System.Drawing.SystemColors.Highlight;
+            this.GettingStarted.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GettingStarted.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.GettingStarted.Location = new System.Drawing.Point(282, 379);
+            this.GettingStarted.Name = "GettingStarted";
+            this.GettingStarted.Size = new System.Drawing.Size(202, 47);
+            this.GettingStarted.TabIndex = 11;
+            this.GettingStarted.Text = "Getting Started";
+            this.GettingStarted.UseVisualStyleBackColor = false;
+            this.GettingStarted.Click += new System.EventHandler(this.GettingStarted_Click);
+            // 
+            // CreateNewMap
+            // 
+            this.CreateNewMap.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.CreateNewMap.BackColor = System.Drawing.SystemColors.Highlight;
+            this.CreateNewMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateNewMap.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.CreateNewMap.Location = new System.Drawing.Point(282, 303);
+            this.CreateNewMap.Name = "CreateNewMap";
+            this.CreateNewMap.Size = new System.Drawing.Size(202, 47);
+            this.CreateNewMap.TabIndex = 10;
+            this.CreateNewMap.Text = "Create New Map";
+            this.CreateNewMap.UseVisualStyleBackColor = false;
+            this.CreateNewMap.Click += new System.EventHandler(this.CreateNewMap_Click);
+            // 
+            // LoadMap
+            // 
+            this.LoadMap.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.LoadMap.BackColor = System.Drawing.SystemColors.Highlight;
+            this.LoadMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LoadMap.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.LoadMap.Location = new System.Drawing.Point(282, 225);
+            this.LoadMap.Name = "LoadMap";
+            this.LoadMap.Size = new System.Drawing.Size(202, 47);
+            this.LoadMap.TabIndex = 9;
+            this.LoadMap.Text = "Load Exisiting Map";
+            this.LoadMap.UseVisualStyleBackColor = false;
+            this.LoadMap.Click += new System.EventHandler(this.LoadMap_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(263, 173);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(250, 20);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Where would you like to start?";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // HeadingLavel
+            // 
+            this.HeadingLavel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.HeadingLavel.AutoSize = true;
+            this.HeadingLavel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeadingLavel.Location = new System.Drawing.Point(193, 111);
+            this.HeadingLavel.Name = "HeadingLavel";
+            this.HeadingLavel.Size = new System.Drawing.Size(399, 26);
+            this.HeadingLavel.TabIndex = 7;
+            this.HeadingLavel.Text = "Welcome to the Epic Tile Map Editor";
+            this.HeadingLavel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // TileMapEditor
             // 

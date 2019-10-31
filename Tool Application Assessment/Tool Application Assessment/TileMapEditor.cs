@@ -41,9 +41,17 @@ namespace Tool_Application_Assessment
             int mapWidth = 20;
             int mapHeight = 20;
 
+            NewMapForm newMapForm = new NewMapForm();
+
+            newMapForm.ShowDialog();
+
+            mapWidth = newMapForm.height;
+            mapHeight = newMapForm.width;
 
             //Create new window
             MapEditor newMapEditor = new MapEditor();
+
+            newMapEditor.Text = newMapForm.name;
 
             // Set MDI Marent
             newMapEditor.MdiParent = this;
@@ -71,6 +79,11 @@ namespace Tool_Application_Assessment
             tileImport.MdiParent= this;
 
             tileImport.Show();
+        }
+
+        private void LoadMap_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
