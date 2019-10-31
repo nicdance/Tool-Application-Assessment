@@ -45,8 +45,8 @@ namespace Tool_Application_Assessment
 
             newMapForm.ShowDialog();
 
-            mapWidth = newMapForm.height;
-            mapHeight = newMapForm.width;
+            mapWidth = newMapForm.width;
+            mapHeight = newMapForm.height;
 
             //Create new window
             MapEditor newMapEditor = new MapEditor();

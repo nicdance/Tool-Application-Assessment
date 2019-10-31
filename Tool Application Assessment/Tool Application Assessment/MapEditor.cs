@@ -42,14 +42,25 @@ namespace Tool_Application_Assessment
                 int xPos = 0;
                 int yPos = 0;
                 MapTile tile = new MapTile();
-                tile.Width = width;
-                tile.Height = height;
+                tile.Width = size;
+                tile.Height = size;
                 tile.UniqueID = i;
                 tile.Picture = new PictureBox();
                 tile.Picture.Size = new Size(size, size);
                 tile.Picture.SizeMode = PictureBoxSizeMode.Zoom;
                 tile.Picture.Image = image;
-                tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)i / height) * size);
+                Console.WriteLine("Width:"+ width + "  "+ i % width+":"+ ((int)i / height));
+                tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)(i/ width)) * size);
+                /*
+                if (width == height)
+                {
+                    tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)i / width) * size);
+                }
+                else
+                {
+                    tile.Picture.Location = new System.Drawing.Point((i % width) * size, (i % height) * size);
+                }
+                */
                 map[i] = tile;
                 MapPanel.Controls.Add(tile.Picture);
                 tile.Picture.Enabled = false;
