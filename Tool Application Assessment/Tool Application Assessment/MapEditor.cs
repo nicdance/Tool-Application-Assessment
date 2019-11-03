@@ -12,10 +12,10 @@ namespace Tool_Application_Assessment
     public partial class MapEditor : Form
     {
         public int size = 64;
-        // Bitmap drawArea = null;
-        //PictureBox[,] box;
-        MapTile[] map;
-        List<PictureBox> tiles = new List<PictureBox>();
+        public MapTile[] map;
+        public List<PaletteTile> paletteTiles = new List<PaletteTile>();
+        public List<PictureBox> tiles = new List<PictureBox>();
+        public List<Spritesheet> sheets = new List<Spritesheet>();
         int mapWidth = 0;
         int mapHeight = 0;
 
@@ -30,17 +30,16 @@ namespace Tool_Application_Assessment
             MapPanel.VerticalScroll.Enabled = true;
         }
 
-        public void NewMap(int width, int height)
+        public void NewMap(int width, int height, int mapSize)
         {
             mapWidth = width;
             mapHeight = height;
+            size = mapSize;
             MapPanel.Padding = new Padding(0);
             Bitmap image = new Bitmap("img\\BlackSquare.png");
             map = new MapTile[width * height];
             for (int i = 0; i < width * height; i++)
             {
-                int xPos = 0;
-                int yPos = 0;
                 MapTile tile = new MapTile();
                 tile.Width = size;
                 tile.Height = size;
@@ -49,18 +48,7 @@ namespace Tool_Application_Assessment
                 tile.Picture.Size = new Size(size, size);
                 tile.Picture.SizeMode = PictureBoxSizeMode.Zoom;
                 tile.Picture.Image = image;
-                Console.WriteLine("Width:"+ width + "  "+ i % width+":"+ ((int)i / height));
                 tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)(i/ width)) * size);
-                /*
-                if (width == height)
-                {
-                    tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)i / width) * size);
-                }
-                else
-                {
-                    tile.Picture.Location = new System.Drawing.Point((i % width) * size, (i % height) * size);
-                }
-                */
                 map[i] = tile;
                 MapPanel.Controls.Add(tile.Picture);
                 tile.Picture.Enabled = false;
@@ -110,18 +98,21 @@ namespace Tool_Application_Assessment
             {
                 Console.WriteLine(ex);
                 //MessageBox.Show("");
-            }
+            }        }
 
-        }
-
+        /*
         private void MapEditor_Enter(object sender, EventArgs e)
         {
             TileMapEditor parent = this.MdiParent as TileMapEditor;
             if (parent.Spritesheet != null)
             {
-                Console.WriteLine(parent.Spritesheet.TilesHigh + ":" + parent.Spritesheet.TilesWide);
                 for (int i = 0; i < parent.Spritesheet.TilesHigh * parent.Spritesheet.TilesWide; i++)
                 {
+                    PaletteTile palette = new PaletteTile();
+                    palette.Height = size;
+                    palette.Width = size;
+                    palette.UniqueID = paletteTiles.Count;
+
                     PictureBox box = new PictureBox();
                     Bitmap drawArea = new Bitmap(size, size);
                     box.Size = new Size(size, size);
@@ -129,7 +120,7 @@ namespace Tool_Application_Assessment
                     box.Image = drawArea;
                     box.Enabled = true;
                     box.MouseDown += new MouseEventHandler(TileMouseDown);
-
+                    
                     Graphics g = Graphics.FromImage(drawArea);
                     g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
 
@@ -151,6 +142,54 @@ namespace Tool_Application_Assessment
                 }
             }
         }
+        */
+        
+       private void MapEditor_Enter(object sender, EventArgs e)
+        {
+            TileMapEditor parent = this.MdiParent as TileMapEditor;
+            if (parent.Spritesheet != null)
+            {
+                Console.WriteLine(parent.Spritesheet.Path);
+                for (int i = 0; i < parent.Spritesheet.TilesHigh * parent.Spritesheet.TilesWide; i++)
+                {
+                    PaletteTile palette = new PaletteTile();
+                    palette.UniqueID = paletteTiles.Count;
+
+                    PictureBox box = new PictureBox();
+                    Bitmap drawArea = new Bitmap(size, size);
+                    box.Size = new Size(size, size);
+                    box.SizeMode = PictureBoxSizeMode.Zoom;
+                    box.Image = drawArea;
+                    box.Enabled = true;
+                    box.MouseDown += new MouseEventHandler(TileMouseDown);
+                    palette.Picture = box;
+
+                    Graphics g = Graphics.FromImage(drawArea);
+                    g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
+
+                    Rectangle dest = new Rectangle(0, 0, size, size);
+
+                    palette.XStartPosition = (i % parent.Spritesheet.TilesWide) * (parent.Spritesheet.GridWidth + parent.Spritesheet.Spacing);
+                    palette.YStartPosition = ((int)i / parent.Spritesheet.TilesWide) * (parent.Spritesheet.GridHeight + parent.Spritesheet.Spacing);
+                    palette.Height = parent.Spritesheet.GridWidth;
+                    palette.Width = parent.Spritesheet.GridHeight;
+
+                    Rectangle source = new Rectangle(palette.XStartPosition, palette.XStartPosition,
+                                   palette.Width, palette.Height);
+                    g.DrawImage(parent.Spritesheet.Image, dest, source, GraphicsUnit.Pixel);
+
+                    palette.Picture.Image = drawArea;
+
+                    palette.Picture.MouseDown += new MouseEventHandler(TileBlockClicked);
+                    g.Dispose();
+
+                    tileFlowPanel.Controls.Add(palette.Picture);
+                    paletteTiles.Add(palette);
+                }
+            }
+
+        }
+             
 
         private void MapPanel_MouseDown(object sender, MouseEventArgs e)
         {

@@ -38,7 +38,6 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifySelectedTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.welcomePanel = new System.Windows.Forms.Panel();
             this.GettingStarted = new System.Windows.Forms.Button();
@@ -56,10 +55,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.windowsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.MdiWindowListItem = this.windowsToolStripMenuItem;
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 1;
@@ -97,6 +94,7 @@
             this.saveMapToolStripMenuItem.Name = "saveMapToolStripMenuItem";
             this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveMapToolStripMenuItem.Text = "Save Map";
+            this.saveMapToolStripMenuItem.Click += new System.EventHandler(this.saveMapToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
@@ -128,14 +126,9 @@
             this.modifySelectedTileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modifySelectedTileToolStripMenuItem.Text = "Modify Selected Tile";
             // 
-            // windowsToolStripMenuItem
-            // 
-            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
-            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.windowsToolStripMenuItem.Text = "Windows";
-            // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.helpToolStripMenuItem.Text = "Help ?";
@@ -244,7 +237,6 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
         private System.Windows.Forms.Panel welcomePanel;
         private System.Windows.Forms.Button GettingStarted;
         private System.Windows.Forms.Button CreateNewMap;

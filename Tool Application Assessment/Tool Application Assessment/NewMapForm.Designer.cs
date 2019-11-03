@@ -87,7 +87,7 @@
             // 
             // createMapButton
             // 
-            this.createMapButton.Location = new System.Drawing.Point(71, 119);
+            this.createMapButton.Location = new System.Drawing.Point(69, 134);
             this.createMapButton.Name = "createMapButton";
             this.createMapButton.Size = new System.Drawing.Size(75, 23);
             this.createMapButton.TabIndex = 6;

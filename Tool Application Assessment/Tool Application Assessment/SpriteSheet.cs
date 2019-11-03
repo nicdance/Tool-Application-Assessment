@@ -5,7 +5,7 @@ namespace Tool_Application_Assessment
 {
     public class Spritesheet
     {
-        public string Path { get; private set; }
+        public int UniqueID { get; set; }        public string Path { get; private set; }
 
         public int GridWidth { get; set; } = 32;
         public int GridHeight { get; set; } = 32;

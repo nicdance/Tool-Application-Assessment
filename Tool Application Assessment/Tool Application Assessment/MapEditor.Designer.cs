@@ -90,6 +90,7 @@
             // MapPanel
             // 
             this.MapPanel.AutoScroll = true;
+            this.MapPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.MapPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MapPanel.Location = new System.Drawing.Point(3, 59);
             this.MapPanel.Name = "MapPanel";
@@ -102,6 +103,7 @@
             // tileFlowPanel
             // 
             this.tileFlowPanel.AutoScroll = true;
+            this.tileFlowPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tileFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tileFlowPanel.Location = new System.Drawing.Point(529, 59);
             this.tileFlowPanel.Name = "tileFlowPanel";

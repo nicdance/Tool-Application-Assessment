@@ -29,29 +29,28 @@ namespace Tool_Application_Assessment
             InitializeComponent();
             pictureBox = new PictureBox();
             pictureBox.Location = new Point(0, 0);
-           // pictureBox.MouseDown += new MouseEventHandler(PictureBoxClicked);
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            if (dlg.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (dlg.CheckFileExists == true)
+                if (openFileDialog.CheckFileExists == true)
                 {
-                    Spritesheet = new Spritesheet(dlg.FileName);
-                    Bitmap image = new Bitmap(dlg.FileName);
+                    Spritesheet = new Spritesheet(openFileDialog.FileName);
+                    Bitmap image = new Bitmap(openFileDialog.FileName);
                     pictureBox.Image = image;
                     pictureBox.Size = new Size(image.Width, image.Height);
                     drawArea = new Bitmap(pictureBox.Width, pictureBox.Height);
                     spritePanel.Controls.Add(pictureBox);
-                    drawGrid();
+                    DrawGrid();
                     TilesLoaded = true;
                 }
             }
         }
-        private void drawGrid()
+        private void DrawGrid()
         {
             pictureBox.DrawToBitmap(drawArea, pictureBox.Bounds);
 
@@ -99,7 +98,7 @@ namespace Tool_Application_Assessment
                 if (int.TryParse(textBoxWidth.Text, out width) == true)
                 {
                     Spritesheet.GridWidth = width;
-                    drawGrid();
+                    DrawGrid();
                 }
 
                 textBoxWidth.Text = Spritesheet.GridWidth.ToString();
@@ -114,7 +113,7 @@ namespace Tool_Application_Assessment
                 if (int.TryParse(textBoxHeight.Text, out height) == true)
                 {
                     Spritesheet.GridHeight = height;
-                    drawGrid();
+                    DrawGrid();
                 }
 
                 textBoxHeight.Text = Spritesheet.GridHeight.ToString();
@@ -129,7 +128,7 @@ namespace Tool_Application_Assessment
                 if (int.TryParse(textBoxSpacing.Text, out spacing) == true)
                 {
                     Spritesheet.Spacing = spacing;
-                    drawGrid();
+                    DrawGrid();
                 }
 
                 textBoxSpacing.Text = Spritesheet.Spacing.ToString();
@@ -138,7 +137,7 @@ namespace Tool_Application_Assessment
 
         private void SpriteSheetForm_Shown(object sender, EventArgs e)
         {
-            drawGrid();
+            DrawGrid();
         }
 
         private void PictureBoxClicked(object sender, EventArgs e)
@@ -152,7 +151,7 @@ namespace Tool_Application_Assessment
                 MouseEventArgs mouse = e as MouseEventArgs;
                 CurrentTile = new Point(mouse.X / (Spritesheet.GridWidth + Spritesheet.Spacing),
                     mouse.Y / (Spritesheet.GridHeight + Spritesheet.Spacing));
-                drawGrid();
+                DrawGrid();
             }
         }
 
@@ -211,7 +210,7 @@ namespace Tool_Application_Assessment
                 pictureBox.Size = new Size(image.Width, image.Height);
                 drawArea = new Bitmap(pictureBox.Width, pictureBox.Height);
                 spritePanel.Controls.Add(pictureBox);
-                drawGrid();
+                DrawGrid();
                 TilesLoaded = true;
             }
             catch (Exception ex)

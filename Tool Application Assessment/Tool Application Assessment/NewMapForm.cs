@@ -12,7 +12,7 @@ namespace Tool_Application_Assessment
     public partial class NewMapForm : Form
     {
         public string name;
-        public int height, width;
+        public int height, width, size;
         public NewMapForm()
         {
             InitializeComponent();
@@ -30,6 +30,7 @@ namespace Tool_Application_Assessment
                 name = nameBox.Text;
                 width = int.Parse(widthBox.Text.ToString());
                 height = int.Parse(heightBox.Text.ToString());
+                size = 64;
                 this.Close();
             }
             catch (Exception)
