@@ -108,6 +108,7 @@
             this.Controls.Add(this.nameBox);
             this.Controls.Add(this.mapName);
             this.Name = "NewMapForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Create New Map";
             this.ResumeLayout(false);
             this.PerformLayout();

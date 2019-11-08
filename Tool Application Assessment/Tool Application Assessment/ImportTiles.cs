@@ -11,7 +11,7 @@ namespace Tool_Application_Assessment
 {
     public partial class ImportTiles : Form
     {
-        public Spritesheet Spritesheet { get; private set; }
+        public SpriteSheet Spritesheet { get; private set; }
         public Bitmap drawArea;
         public PictureBox pictureBox;
 
@@ -39,7 +39,7 @@ namespace Tool_Application_Assessment
             {
                 if (openFileDialog.CheckFileExists == true)
                 {
-                    Spritesheet = new Spritesheet(openFileDialog.FileName);
+                    Spritesheet = new SpriteSheet(openFileDialog.FileName);
                     Bitmap image = new Bitmap(openFileDialog.FileName);
                     pictureBox.Image = image;
                     pictureBox.Size = new Size(image.Width, image.Height);
@@ -160,7 +160,7 @@ namespace Tool_Application_Assessment
             if (Spritesheet == null)
                 return;
             TileMapEditor parent = this.MdiParent as TileMapEditor;
-            parent.Spritesheet = Spritesheet;
+            parent.AddSheet(Spritesheet);
             this.Close();
         }
 
@@ -197,14 +197,13 @@ namespace Tool_Application_Assessment
         {
             try
             {
-                Console.WriteLine("Drag Drop");
                 //target control will accept data here 
                 Panel destination = (Panel)sender;
                 String[] imagePaths = (String[])e.Data.GetData(DataFormats.FileDrop);
                 Bitmap bitmap = (Bitmap)e.Data.GetData(typeof(Bitmap));
                 Console.WriteLine(imagePaths);
                 Console.WriteLine(imagePaths[0]);
-                Spritesheet = new Spritesheet(imagePaths[0]);
+                Spritesheet = new SpriteSheet(imagePaths[0]);
                 Bitmap image = new Bitmap(imagePaths[0]);
                 pictureBox.Image = image;
                 pictureBox.Size = new Size(image.Width, image.Height);

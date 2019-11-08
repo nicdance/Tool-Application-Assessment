@@ -3,9 +3,10 @@ using System.Drawing;
 
 namespace Tool_Application_Assessment
 {
-    public class Spritesheet
+    public class SpriteSheet
     {
-        public int UniqueID { get; set; }        public string Path { get; private set; }
+        public int UniqueID { get; set; }
+        public string Path { get; private set; }
 
         public int GridWidth { get; set; } = 32;
         public int GridHeight { get; set; } = 32;
@@ -38,7 +39,7 @@ namespace Tool_Application_Assessment
             }
         }
 
-        public Spritesheet(string path)
+        public SpriteSheet(string path)
         {
             Path = path;
             Image = Image.FromFile(path);

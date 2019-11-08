@@ -12,8 +12,14 @@ namespace Tool_Application_Assessment
 {
     public partial class TileMapEditor : Form
     {
+        public NewMapForm newMapForm;
+        public SpriteSheet Spritesheet { get; set; }
 
-        public Spritesheet Spritesheet { get; set; }
+        public delegate void AddSpriteSheet(SpriteSheet sheet);
+        public event AddSpriteSheet OnAddSpriteSheet;
+
+        public delegate void FillPallette();
+        public event FillPallette OnFillPallette;
 
         public TileMapEditor()
         {
@@ -42,9 +48,20 @@ namespace Tool_Application_Assessment
             int mapWidth = 20;
             int mapHeight = 20;
             int size = 0;
+            if (newMapForm != null)
+            {
+                foreach (Form form in this.MdiChildren)
+                {
+                    //MessageBox.Show(form.GetType().Name);
+                     newMapForm = null;
+                    form.Close();
+                    form.Dispose();
 
-            NewMapForm newMapForm = new NewMapForm();
+                }
 
+            }
+            
+            newMapForm = new NewMapForm();
             newMapForm.ShowDialog();
 
             mapWidth = newMapForm.width;
@@ -52,13 +69,12 @@ namespace Tool_Application_Assessment
             size = newMapForm.size;
 
             //Create new window
-            MapEditor newMapEditor = new MapEditor();
+            MapEditor newMapEditor = new MapEditor(this);
 
             newMapEditor.Text = newMapForm.name;
 
             // Set MDI Marent
-            newMapEditor.MdiParent = this;
-
+           // newMapEditor.MdiParent = this;
             // show the window
             newMapEditor.Show();
             newMapEditor.NewMap(mapWidth, mapHeight,size);
@@ -87,7 +103,65 @@ namespace Tool_Application_Assessment
         private void LoadMap_Click(object sender, EventArgs e)
         {
 
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            string file = "";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (openFileDialog.FileName != "")
+                {
+                    string data;
+                    FileStream fsSource = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                    using (StreamReader sr = new StreamReader(fsSource))
+                    {
+                        //data = sr.ReadToEnd();
+                        int count = 0;
+                        while ((data = sr.ReadLine()) != null)
+                        {
+                            string[] strList = data.Split(':');
+                            switch (strList[0])
+                            {
+                                case ("F"):
+                                    Console.WriteLine("New File:  " + data);
+                                    break;
+                                case ("T"):
+                                    Console.WriteLine("T   " + data);
+                                    break;
+                                case ("M"):
+                                    Console.WriteLine("M   " + data);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    Console.WriteLine(data);
+                    Console.ReadLine();
+                    fsSource.Close();
+                }
+            }
+
         }
+
+        public void AddSheet(SpriteSheet sheet) {
+
+            if (OnAddSpriteSheet != null)
+            {
+                OnAddSpriteSheet(sheet);
+            }
+        }
+
+
+        public void FillCurrentPallette()
+        {
+            if (OnFillPallette != null)
+            {
+                OnFillPallette();
+            }
+        }
+
+
 
         private void saveMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -123,7 +197,7 @@ namespace Tool_Application_Assessment
                     fs.Close();
                     Console.WriteLine("Successfully saved file!");
 
-
+                    /*
                     string data;
                     FileStream fsSource = new FileStream(saveFileDialog.FileName, FileMode.Open, FileAccess.Read);
                     using (StreamReader sr = new StreamReader(fsSource))
@@ -151,7 +225,7 @@ namespace Tool_Application_Assessment
                     }
                     Console.WriteLine(data);
                     Console.ReadLine();
-
+                    */
 
                 }
             }

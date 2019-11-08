@@ -14,6 +14,7 @@ namespace Tool_Application_Assessment
         public int XStartPosition { get; set; }
         public int YStartPosition { get; set; }
         public int UniqueID { get; set; }
+        public int SpriteSheetID { get; set; }
         public bool Multiple { get; set; }
 
         public string IsMultiple()
@@ -31,7 +32,7 @@ namespace Tool_Application_Assessment
 
         public override string ToString()
         {
-            return IsMultiple() + ":" + Height + ":" + Width + ":" + XStartPosition + ":" + YStartPosition + ":" + UniqueID;
+            return IsMultiple() + ":" + Height + ":" + Width + ":" + XStartPosition + ":" + YStartPosition + ":" + UniqueID + ":" + SpriteSheetID;
         }
     }
 }
