@@ -20,7 +20,7 @@ namespace Tool_Application_Assessment
         int mapHeight = 0;
 
 
-        public PictureBox CurrentTile { get; private set; }
+        public PaletteTile CurrentTile { get; private set; }
         public bool Painting { get; private set; } = false;
 
         public MapEditor(TileMapEditor parentForm)
@@ -133,14 +133,21 @@ namespace Tool_Application_Assessment
         {
             if (CurrentTile != null)
             {
-                CurrentTile.BorderStyle = BorderStyle.None;
+                CurrentTile.Picture.BorderStyle = BorderStyle.None;
 
             }
             if (e.GetType() == typeof(MouseEventArgs))
             {
                 PictureBox box = sender as PictureBox;
-                CurrentTile = box;
-                CurrentTile.BorderStyle = BorderStyle.Fixed3D;
+                for (int i = 0; i < paletteTiles.Count; i++)
+                {
+                    if (paletteTiles[i].Picture == box)
+                    {
+                        CurrentTile = paletteTiles[i];
+                        break;
+                    }
+                }
+                CurrentTile.Picture.BorderStyle = BorderStyle.Fixed3D;
             }
         }
 
@@ -154,8 +161,8 @@ namespace Tool_Application_Assessment
                                                e.Y - MapPanel.AutoScrollPosition.Y);
                     int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size * mapWidth));
                     map[tile].Picture.Image = null;
-                    map[tile].Picture.Image = CurrentTile.Image;
-
+                    map[tile].Picture.Image = CurrentTile.Picture.Image;
+                    map[tile].PalletteID = CurrentTile.UniqueID;
                 }
             }
             catch (Exception ex)

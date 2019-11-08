@@ -14,6 +14,8 @@ namespace Tool_Application_Assessment
         public int TilesWide { get; set; } = 1;
         public int Spacing { get; set; } = 1;
 
+
+
         public string Filename
         {
             get { return Path.Substring(Path.LastIndexOf('\\')); }
@@ -45,9 +47,11 @@ namespace Tool_Application_Assessment
             Image = Image.FromFile(path);
         }
 
+
         public override string ToString()
         {
-            return Filename;
+            return "F:" + UniqueID + ":" + Path + ":" + GridWidth + ":" + GridHeight + ":" + TilesHigh + ":" + TilesWide + ":" + Spacing;
         }
+
     }
 }

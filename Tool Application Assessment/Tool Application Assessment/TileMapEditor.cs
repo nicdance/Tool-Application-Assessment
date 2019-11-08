@@ -53,14 +53,14 @@ namespace Tool_Application_Assessment
                 foreach (Form form in this.MdiChildren)
                 {
                     //MessageBox.Show(form.GetType().Name);
-                     newMapForm = null;
+                    newMapForm = null;
                     form.Close();
                     form.Dispose();
 
                 }
 
             }
-            
+
             newMapForm = new NewMapForm();
             newMapForm.ShowDialog();
 
@@ -74,10 +74,10 @@ namespace Tool_Application_Assessment
             newMapEditor.Text = newMapForm.name;
 
             // Set MDI Marent
-           // newMapEditor.MdiParent = this;
+            // newMapEditor.MdiParent = this;
             // show the window
             newMapEditor.Show();
-            newMapEditor.NewMap(mapWidth, mapHeight,size);
+            newMapEditor.NewMap(mapWidth, mapHeight, size);
 
             this.welcomePanel.Visible = false;
             this.saveMapToolStripMenuItem.Enabled = true;
@@ -95,7 +95,7 @@ namespace Tool_Application_Assessment
             ImportTiles tileImport = new ImportTiles();
 
             // Set MDI Marent
-            tileImport.MdiParent= this;
+            tileImport.MdiParent = this;
 
             tileImport.Show();
         }
@@ -123,10 +123,13 @@ namespace Tool_Application_Assessment
                             switch (strList[0])
                             {
                                 case ("F"):
-                                    Console.WriteLine("New File:  " + data);
+                                    Console.WriteLine("F:  " + data);
                                     break;
                                 case ("T"):
                                     Console.WriteLine("T   " + data);
+                                    break;
+                                case ("s"):
+                                    Console.WriteLine("S   " + data);
                                     break;
                                 case ("M"):
                                     Console.WriteLine("M   " + data);
@@ -144,7 +147,8 @@ namespace Tool_Application_Assessment
 
         }
 
-        public void AddSheet(SpriteSheet sheet) {
+        public void AddSheet(SpriteSheet sheet)
+        {
 
             if (OnAddSpriteSheet != null)
             {
@@ -179,57 +183,36 @@ namespace Tool_Application_Assessment
                     byte[] newline = Encoding.ASCII.GetBytes(Environment.NewLine);
                     Console.WriteLine(forms.Length + " child forms.");
                     MapEditor map = forms[0] as MapEditor;
+
+                    // Save out Spritesheet details
+                    for (int i = 0; i < map.sheets.Count; i++)
+                    {
+                        byte[] bdata = Encoding.Default.GetBytes(map.sheets[i].ToString());
+                        fs.Write(bdata, 0, bdata.Length);
+                        fs.Write(newline, 0, newline.Length);
+                    }
+
+                    //save out current Palette
                     for (int i = 0; i < map.paletteTiles.Count; i++)
                     {
-                        if (file != map.paletteTiles[i].Picture.ImageLocation)
-                        {
-                            file = map.paletteTiles[i].Picture.ImageLocation;
-                            string fn = "SS:" + file;
-                            byte[] fileNameDate = Encoding.Default.GetBytes(fn);
-                            fs.Write(fileNameDate, 0, fileNameDate.Length);
-                            fs.Write(newline, 0, newline.Length);
-
-                        }
                         byte[] bdata = Encoding.Default.GetBytes(map.paletteTiles[i].ToString());
                         fs.Write(bdata, 0, bdata.Length);
                         fs.Write(newline, 0, newline.Length);
                     }
+
+                    // Save out current Map
+                    for (int i = 0; i < map.map.Length; i++)
+                    {
+                        byte[] bdata = Encoding.Default.GetBytes(map.map[i].ToString());
+                        fs.Write(bdata, 0, bdata.Length);
+                        fs.Write(newline, 0, newline.Length);
+                    }
+
                     fs.Close();
                     Console.WriteLine("Successfully saved file!");
-
-                    /*
-                    string data;
-                    FileStream fsSource = new FileStream(saveFileDialog.FileName, FileMode.Open, FileAccess.Read);
-                    using (StreamReader sr = new StreamReader(fsSource))
-                    {
-                        //data = sr.ReadToEnd();
-                        int count = 0;
-                        while ((data = sr.ReadLine()) !=null)
-                        {
-                            string[] strList = data.Split(':');
-                            switch (strList[0])
-                            {
-                                case ("F"):
-                                    Console.WriteLine("New File:  " + data);
-                                    break;
-                                case ("T"):
-                                    Console.WriteLine("T   " + data);
-                                    break;
-                                case ("M"):
-                                    Console.WriteLine("M   " + data);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    Console.WriteLine(data);
-                    Console.ReadLine();
-                    */
-
                 }
-            }
 
+            }
         }
     }
 }
