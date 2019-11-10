@@ -32,7 +32,7 @@ namespace Tool_Application_Assessment
 
         public override string ToString()
         {
-            return IsMultiple() + ":" + Height + ":" + Width + ":" + XStartPosition + ":" + YStartPosition + ":" + UniqueID + ":" + SpriteSheetID;
+            return IsMultiple() + "," + Height + "," + Width + "," + XStartPosition + "," + YStartPosition + "," + UniqueID + "," + SpriteSheetID;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Tool_Application_Assessment
 
         public override string ToString()
         {
-            return "M:"+Height + ":" + Width + ":"+ UniqueID + ":"+ PalletteID;
+            return "M,"+Height + "," + Width + ","+ UniqueID + ","+ PalletteID;
         }
     }
 }

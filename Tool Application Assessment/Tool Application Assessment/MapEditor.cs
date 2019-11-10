@@ -30,9 +30,11 @@ namespace Tool_Application_Assessment
             MapPanel.HorizontalScroll.Enabled = true;
             MapPanel.VerticalScroll.Enabled = true;
 
-            //TileMapEditor parent = this.MdiParent as TileMapEditor;
+            // assign to event listeners
             parentForm.OnAddSpriteSheet += AddNewSheet;
             parentForm.OnFillPallette += PopulatePalette;
+            parentForm.OnRefreshMap += RefreshMap;
+            parentForm.OnEditMapTile += EditMapTile;
 
         }
 
@@ -41,8 +43,32 @@ namespace Tool_Application_Assessment
             sheets.Add(sheet);
             PopulatePalette();
         }
+        public void EditMapTile(int height, int width, int ID, int paletteID)
+        {
+            map[ID].Height = height;
+            map[ID].Width = width;
+            map[ID].UniqueID = ID;
+            map[ID].PalletteID = paletteID;
 
-        public void PopulatePalette()
+            map[ID].Picture.Image = null;
+            map[ID].Picture.Image = paletteTiles[paletteID].Picture.Image;
+
+        }
+
+        public void RefreshMap()
+        {
+            foreach (var box in MapPanel.Controls)
+            {
+                tileFlowPanel.Controls.Clear();
+            }
+            for (int ii = 0; ii < map.Length; ii++)
+            {
+                MapPanel.Controls.Add(map[ii].Picture);
+            }
+
+        }
+
+            public void PopulatePalette()
         {
             foreach (var box in tileFlowPanel.Controls)
             {
@@ -52,10 +78,16 @@ namespace Tool_Application_Assessment
             {
                 paletteTiles.Clear();
             }
-            MessageBox.Show(" No of Sheets: " + sheets.Count);
-            for (int ii = 0; ii < sheets.Count; ii++) {
+            Console.WriteLine(" No of Sheets: " + sheets.Count);
+            for (int ii = 0; ii < sheets.Count; ii++)
+            {
+                Console.WriteLine(" No of elements: " + sheets[ii].TilesHigh * sheets[ii].TilesWide);
+                Console.WriteLine(sheets[ii].TilesWide);
+                Console.WriteLine(sheets[ii].TilesHigh);
+                
                 for (int i = 0; i < sheets[ii].TilesHigh * sheets[ii].TilesWide; i++)
                 {
+                    Console.WriteLine(i);
                     PaletteTile palette = new PaletteTile();
                     palette.UniqueID = paletteTiles.Count;
                     palette.SpriteSheetID = sheets[ii].UniqueID;
@@ -91,6 +123,7 @@ namespace Tool_Application_Assessment
                     tileFlowPanel.Controls.Add(palette.Picture);
                     paletteTiles.Add(palette);
                 }
+                
             }
         }
 
@@ -201,6 +234,10 @@ namespace Tool_Application_Assessment
                 OnTileClick(sender, e);
             }
         }
+        public override string ToString()
+        {
+            return "N," + mapWidth + "," + mapHeight + "," + Text + "," + size;
+        }
     }
-
+    
 }

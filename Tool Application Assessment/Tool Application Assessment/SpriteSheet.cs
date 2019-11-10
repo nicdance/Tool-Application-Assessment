@@ -41,6 +41,7 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // add try catch incase of file not found
         public SpriteSheet(string path)
         {
             Path = path;
@@ -50,7 +51,7 @@ namespace Tool_Application_Assessment
 
         public override string ToString()
         {
-            return "F:" + UniqueID + ":" + Path + ":" + GridWidth + ":" + GridHeight + ":" + TilesHigh + ":" + TilesWide + ":" + Spacing;
+            return "F," + UniqueID + "," + Path + "," + GridWidth + "," + GridHeight + "," + TilesHigh + "," + TilesWide + "," + Spacing;
         }
 
     }
