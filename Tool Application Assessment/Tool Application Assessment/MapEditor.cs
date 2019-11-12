@@ -35,157 +35,192 @@ namespace Tool_Application_Assessment
             parentForm.OnFillPallette += PopulatePalette;
             parentForm.OnRefreshMap += RefreshMap;
             parentForm.OnEditMapTile += EditMapTile;
+           
 
+        }
+        // Destructor
+        public void ClearListeners()
+        {
+            Console.WriteLine("ClearListeners.");
+            TileMapEditor parentForm = this.MdiParent as TileMapEditor;
+            // assign to event listeners
+            parentForm.OnAddSpriteSheet -= AddNewSheet;
+            parentForm.OnFillPallette -= PopulatePalette;
+            parentForm.OnRefreshMap -= RefreshMap;
+            parentForm.OnEditMapTile -= EditMapTile;
         }
 
         public void AddNewSheet(SpriteSheet sheet) {
-            sheet.UniqueID = sheets.Count;
-            sheets.Add(sheet);
-            PopulatePalette();
-        }
-        public void EditMapTile(int height, int width, int ID, int paletteID)
-        {
-            map[ID].Height = height;
-            map[ID].Width = width;
-            map[ID].UniqueID = ID;
-            map[ID].PalletteID = paletteID;
-
-            map[ID].Picture.Image = null;
-            map[ID].Picture.Image = paletteTiles[paletteID].Picture.Image;
-
-        }
-
-        public void RefreshMap()
-        {
-            foreach (var box in MapPanel.Controls)
+             sheet.UniqueID = sheets.Count;
+             sheets.Add(sheet);
+             PopulatePalette();
+         }
+         public void EditMapTile(int height, int width, int ID, int paletteID)
+         {
+            Console.WriteLine("EditMapTile");
+            Console.WriteLine(map.Length  +":" + ID);
+            try
             {
-                tileFlowPanel.Controls.Clear();
+
+                map[ID].Height = height;
+                map[ID].Width = width;
+                map[ID].UniqueID = ID;
+                map[ID].PalletteID = paletteID;
+
+                map[ID].Picture.Image = null;
+                map[ID].Picture.Image = paletteTiles[paletteID].Picture.Image;
             }
-            for (int ii = 0; ii < map.Length; ii++)
+            catch (Exception)
             {
-                MapPanel.Controls.Add(map[ii].Picture);
+                Console.WriteLine("Error");
+                //throw;
             }
 
-        }
+         }
 
-            public void PopulatePalette()
-        {
-            foreach (var box in tileFlowPanel.Controls)
-            {
-                tileFlowPanel.Controls.Clear();
-            }
-            for (int ii = 0; ii < paletteTiles.Count; ii++)
-            {
-                paletteTiles.Clear();
-            }
-            Console.WriteLine(" No of Sheets: " + sheets.Count);
-            for (int ii = 0; ii < sheets.Count; ii++)
-            {
-                Console.WriteLine(" No of elements: " + sheets[ii].TilesHigh * sheets[ii].TilesWide);
-                Console.WriteLine(sheets[ii].TilesWide);
-                Console.WriteLine(sheets[ii].TilesHigh);
-                
-                for (int i = 0; i < sheets[ii].TilesHigh * sheets[ii].TilesWide; i++)
-                {
-                    Console.WriteLine(i);
-                    PaletteTile palette = new PaletteTile();
-                    palette.UniqueID = paletteTiles.Count;
-                    palette.SpriteSheetID = sheets[ii].UniqueID;
+         public void RefreshMap()
+         {
+             foreach (var box in MapPanel.Controls)
+             {
+                 tileFlowPanel.Controls.Clear();
+             }
+             for (int ii = 0; ii < map.Length; ii++)
+             {
+                 MapPanel.Controls.Add(map[ii].Picture);
+             }
 
-                    PictureBox box = new PictureBox();
-                    Bitmap drawArea = new Bitmap(size, size);
-                    box.Size = new Size(size, size);
-                    box.SizeMode = PictureBoxSizeMode.Zoom;
-                    box.Image = drawArea;
-                    box.Enabled = true;
-                    box.MouseDown += new MouseEventHandler(TileMouseDown);
-                    palette.Picture = box;
+         }
 
-                    Graphics g = Graphics.FromImage(drawArea);
-                    g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
+         public void PopulatePalette()
+         {
+             foreach (var box in tileFlowPanel.Controls)
+             {
+                 tileFlowPanel.Controls.Clear();
+             }
+             for (int ii = 0; ii < paletteTiles.Count; ii++)
+             {
+                 paletteTiles.Clear();
+             }
+             for (int ii = 0; ii < sheets.Count; ii++)
+             {
+                 //Console.WriteLine(" No of elements: " + sheets[ii].TilesHigh * sheets[ii].TilesWide);
+                 //Console.WriteLine(sheets[ii].TilesWide);
+                 //Console.WriteLine(sheets[ii].TilesHigh);
 
-                    Rectangle dest = new Rectangle(0, 0, size, size);
+                 for (int i = 0; i < sheets[ii].TilesHigh * sheets[ii].TilesWide; i++)
+                 {
+                     //Console.WriteLine(i);
+                     PaletteTile palette = new PaletteTile();
+                     palette.UniqueID = paletteTiles.Count;
+                     palette.SpriteSheetID = sheets[ii].UniqueID;
 
-                    palette.XStartPosition = (i % sheets[ii].TilesWide) * (sheets[ii].GridWidth + sheets[ii].Spacing);
-                    palette.YStartPosition = ((int)i / sheets[ii].TilesWide) * (sheets[ii].GridHeight + sheets[ii].Spacing);
-                    palette.Height = sheets[ii].GridWidth;
-                    palette.Width = sheets[ii].GridHeight;
+                     PictureBox box = new PictureBox();
+                     Bitmap drawArea = new Bitmap(size, size);
+                     box.Size = new Size(size, size);
+                     box.SizeMode = PictureBoxSizeMode.Zoom;
+                     box.Image = drawArea;
+                     box.Enabled = true;
+                     box.MouseDown += new MouseEventHandler(TileMouseDown);
+                     palette.Picture = box;
 
-                    Rectangle source = new Rectangle(palette.XStartPosition, palette.YStartPosition,
-                                    palette.Width, palette.Height);
-                    g.DrawImage(sheets[ii].Image, dest, source, GraphicsUnit.Pixel);
+                     Graphics g = Graphics.FromImage(drawArea);
+                     g.FillRectangle(Brushes.White, 0, 0, drawArea.Width, drawArea.Height);
 
-                    palette.Picture.Image = drawArea;
+                     Rectangle dest = new Rectangle(0, 0, size, size);
 
-                    palette.Picture.MouseDown += new MouseEventHandler(TileBlockClicked);
-                    g.Dispose();
+                     palette.XStartPosition = (i % sheets[ii].TilesWide) * (sheets[ii].GridWidth + sheets[ii].Spacing);
+                     palette.YStartPosition = ((int)i / sheets[ii].TilesWide) * (sheets[ii].GridHeight + sheets[ii].Spacing);
+                     palette.Height = sheets[ii].GridWidth;
+                     palette.Width = sheets[ii].GridHeight;
 
-                    tileFlowPanel.Controls.Add(palette.Picture);
-                    paletteTiles.Add(palette);
-                }
-                
-            }
-        }
+                     Rectangle source = new Rectangle(palette.XStartPosition, palette.YStartPosition,
+                                     palette.Width, palette.Height);
+                     g.DrawImage(sheets[ii].Image, dest, source, GraphicsUnit.Pixel);
 
-        public void NewMap(int width, int height, int mapSize)
-        {
-            mapWidth = width;
-            mapHeight = height;
-            size = mapSize;
-            MapPanel.Padding = new Padding(0);
-            Bitmap image = new Bitmap("img\\BlackSquare.png");
-            map = new MapTile[width * height];
-            for (int i = 0; i < width * height; i++)
-            {
-                MapTile tile = new MapTile();
-                tile.Width = size;
-                tile.Height = size;
-                tile.UniqueID = i;
-                tile.Picture = new PictureBox();
-                tile.Picture.Size = new Size(size, size);
-                tile.Picture.SizeMode = PictureBoxSizeMode.Zoom;
-                tile.Picture.Image = image;
-                tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)(i/ width)) * size);
-                map[i] = tile;
-                MapPanel.Controls.Add(tile.Picture);
-                tile.Picture.Enabled = false;
-            }
-            MapPanel.AllowDrop = true;
-            MapPanel.MouseDown += new MouseEventHandler(OnTileClick);
-            MapPanel.HorizontalScroll.Enabled = true;
-            MapPanel.VerticalScroll.Enabled = true;
-        }
+                     palette.Picture.Image = drawArea;
 
-        private void TileMouseDown(object sender, MouseEventArgs e)
-        {
-            PictureBox box = sender as PictureBox;
-            // this.DoDragDrop(box.Image, DragDropEffects.All);
-        }
+                     palette.Picture.MouseDown += new MouseEventHandler(TileBlockClicked);
+                     g.Dispose();
 
-        private void TileBlockClicked(object sender, EventArgs e)
-        {
-            if (CurrentTile != null)
-            {
-                CurrentTile.Picture.BorderStyle = BorderStyle.None;
+                     tileFlowPanel.Controls.Add(palette.Picture);
+                     paletteTiles.Add(palette);
+                 }
 
-            }
-            if (e.GetType() == typeof(MouseEventArgs))
-            {
-                PictureBox box = sender as PictureBox;
-                for (int i = 0; i < paletteTiles.Count; i++)
-                {
-                    if (paletteTiles[i].Picture == box)
-                    {
-                        CurrentTile = paletteTiles[i];
-                        break;
-                    }
-                }
-                CurrentTile.Picture.BorderStyle = BorderStyle.Fixed3D;
-            }
-        }
+             }
+         }
 
-        void OnTileClick(object sender, MouseEventArgs e)
-        {
+         public void NewMap(int width, int height, int mapSize)
+         {
+             mapWidth = width;
+             mapHeight = height;
+             size = mapSize;
+             MapPanel.Padding = new Padding(0);
+             Bitmap image = new Bitmap("img\\BlackSquare.png");
+             map = new MapTile[width * height];
+             for (int i = 0; i < width * height; i++)
+             {
+                 MapTile tile = new MapTile();
+                 tile.Width = size;
+                 tile.Height = size;
+                 tile.UniqueID = i;
+                 tile.Picture = new PictureBox();
+                 tile.Picture.Size = new Size(size, size);
+                 tile.Picture.SizeMode = PictureBoxSizeMode.Zoom;
+                 tile.Picture.Image = image;
+                 tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)(i/ width)) * size);
+                 map[i] = tile;
+                 MapPanel.Controls.Add(tile.Picture);
+                 tile.Picture.Enabled = false;
+             }
+             MapPanel.AllowDrop = true;
+             MapPanel.MouseDown += new MouseEventHandler(OnTileClick);
+             MapPanel.HorizontalScroll.Enabled = true;
+             MapPanel.VerticalScroll.Enabled = true;
+         }
+
+         private void TileMouseDown(object sender, MouseEventArgs e)
+         {
+             PictureBox box = sender as PictureBox;
+             // this.DoDragDrop(box.Image, DragDropEffects.All);
+         }
+
+         private void TileBlockClicked(object sender, EventArgs e)
+         {
+             if (CurrentTile != null)
+             {
+                 CurrentTile.Picture.BorderStyle = BorderStyle.None;
+
+             }
+             if (e.GetType() == typeof(MouseEventArgs))
+             {
+                 PictureBox box = sender as PictureBox;
+                 for (int i = 0; i < paletteTiles.Count; i++)
+                 {
+                     if (paletteTiles[i].Picture == box)
+                     {
+                         CurrentTile = paletteTiles[i];
+                         break;
+                     }
+                 }
+                 CurrentTile.Picture.BorderStyle = BorderStyle.Fixed3D;
+             }
+         }
+
+         void OnTileClick(object sender, MouseEventArgs e)
+         {
+
+             /*
+              this.MdiParent = parentForm;
+             InitializeComponent();
+             MapPanel.HorizontalScroll.Enabled = true;
+             MapPanel.VerticalScroll.Enabled = true;
+
+             // assign to event listeners
+             parentForm.OnAddSpriteSheet += AddNewSheet;
+             parentForm.OnFillPallette += PopulatePalette;
+             parentForm.OnRefreshMap += RefreshMap;
+             parentForm.OnEditMapTile += EditMapTile;
+              */
             try
             {
                 if (CurrentTile != null)
@@ -193,9 +228,14 @@ namespace Tool_Application_Assessment
                     Point scrolledPoint = new Point(e.X - MapPanel.AutoScrollPosition.X,
                                                e.Y - MapPanel.AutoScrollPosition.Y);
                     int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size * mapWidth));
-                    map[tile].Picture.Image = null;
-                    map[tile].Picture.Image = CurrentTile.Picture.Image;
-                    map[tile].PalletteID = CurrentTile.UniqueID;
+                    // map[tile].Picture.Image = null;
+                    // map[tile].Picture.Image = CurrentTile.Picture.Image;
+                    // map[tile].PalletteID = CurrentTile.UniqueID;
+                    // MapTile[] map, int width, int startPosition, PaletteTile CurrentTile
+                    //this.MdiParent;
+                    TileMapEditor parent = this.MdiParent as TileMapEditor;
+                    parent.tool.PaintTiles(ref map, mapWidth, tile, CurrentTile);
+
                 }
             }
             catch (Exception ex)

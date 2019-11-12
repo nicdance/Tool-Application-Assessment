@@ -201,8 +201,6 @@ namespace Tool_Application_Assessment
                 Panel destination = (Panel)sender;
                 String[] imagePaths = (String[])e.Data.GetData(DataFormats.FileDrop);
                 Bitmap bitmap = (Bitmap)e.Data.GetData(typeof(Bitmap));
-                Console.WriteLine(imagePaths);
-                Console.WriteLine(imagePaths[0]);
                 Spritesheet = new SpriteSheet(imagePaths[0]);
                 Bitmap image = new Bitmap(imagePaths[0]);
                 pictureBox.Image = image;

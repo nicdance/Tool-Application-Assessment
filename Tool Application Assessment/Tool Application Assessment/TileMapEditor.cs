@@ -14,6 +14,7 @@ namespace Tool_Application_Assessment
     {
         public NewMapForm newMapForm;
         public SpriteSheet Spritesheet { get; set; }
+        public MapTools tool { get; set; } = new SmallTool();
 
         public delegate void AddSpriteSheet(SpriteSheet sheet);
         public event AddSpriteSheet OnAddSpriteSheet;
@@ -24,6 +25,9 @@ namespace Tool_Application_Assessment
         public delegate void RefreshMap();
         public event RefreshMap OnRefreshMap;
 
+        public delegate void DrawOnMap( int width, int startPosition);
+        public event DrawOnMap OnDrawOnMap;
+
 
         public delegate void EditMapTile(int height, int width, int ID, int paletteID);
         public event EditMapTile OnEditMapTile;
@@ -32,8 +36,13 @@ namespace Tool_Application_Assessment
         {
             InitializeComponent();
             Spritesheet = null;
+           // OnDrawOnMap += DrawOnTiles();
         }
+        // MapTile[] tileMap, int width, int startPosition, PaletteTile currentTile
 
+        public void DrawOnTiles(int width, int startPosition) {
+
+        }
         private void OnMenuHover(object sender, EventArgs e)
         {
 
@@ -47,7 +56,36 @@ namespace Tool_Application_Assessment
 
         private void LoadMap_MouseClick(object sender, MouseEventArgs e)
         {
+            LoadExistingMap();
+        }
 
+        public void CheckSaveExisiting() {
+            //if (newMapForm != null)
+            {
+                foreach (Form form in this.MdiChildren)
+                {
+                    Console.WriteLine(form.GetType().Name);
+                    if (form.GetType().Name == "MapEditor")
+                    {
+                        DialogResult result = MessageBox.Show("Would you like to Save your your current Map?",
+                  "Save", MessageBoxButtons.YesNo);
+                        switch (result)
+                        {
+                            case DialogResult.Yes:
+                                SaveCurrentMap();
+                                break;
+                            case DialogResult.No:
+                                break;
+                        };
+                        newMapForm = null;
+                        MapEditor mapEditor = form as MapEditor;
+                        mapEditor.ClearListeners();
+                    }
+                    form.Close();
+                    form.Dispose();
+
+                }    
+            }
         }
 
         private void CreateNewMap_Click(object sender, EventArgs e)
@@ -55,18 +93,8 @@ namespace Tool_Application_Assessment
             int mapWidth = 20;
             int mapHeight = 20;
             int size = 0;
-            if (newMapForm != null)
-            {
-                foreach (Form form in this.MdiChildren)
-                {
-                    //MessageBox.Show(form.GetType().Name);
-                    newMapForm = null;
-                    form.Close();
-                    form.Dispose();
 
-                }
-
-            }
+            CheckSaveExisiting();
 
             newMapForm = new NewMapForm();
             newMapForm.ShowDialog();
@@ -79,10 +107,6 @@ namespace Tool_Application_Assessment
             MapEditor newMapEditor = new MapEditor(this);
 
             newMapEditor.Text = newMapForm.name;
-
-            // Set MDI Marent
-            // newMapEditor.MdiParent = this;
-            // show the window
             newMapEditor.Show();
             newMapEditor.NewMap(mapWidth, mapHeight, size);
 
@@ -101,103 +125,142 @@ namespace Tool_Application_Assessment
         {
             ImportTiles tileImport = new ImportTiles();
 
-            // Set MDI Marent
+            // Set MDI parent
             tileImport.MdiParent = this;
 
             tileImport.Show();
         }
 
-        private void LoadMap_Click(object sender, EventArgs e)
+        public void LoadExistingMap()
         {
+            CheckSaveExisiting();
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            string file = "";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (openFileDialog.FileName != "")
                 {
-                    string data;
-                    FileStream fsSource = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
-                    using (StreamReader sr = new StreamReader(fsSource))
+                    try
                     {
-                        //Create new window
-                        MapEditor newMapEditor = new MapEditor(this);
-                        
-                        //data = sr.ReadToEnd();
-                        int height = 0;
-                        int width = 0;
-                        int count = 0;
-                        string name = "";
-                        int size = 0;
-                        while ((data = sr.ReadLine()) != null)
+                        string data;
+                        FileStream fsSource = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                        using (StreamReader sr = new StreamReader(fsSource))
                         {
-                            string[] strList = data.Split(',');
-                            switch (strList[0])
+                            //Create new window
+                            MapEditor newMapEditor = new MapEditor(this);
+
+                            int height = 0;
+                            int width = 0;
+                            string name = "";
+                            int size = 0;
+                            while ((data = sr.ReadLine()) != null)
                             {
-                                case ("N"):
-                                    Console.WriteLine("N:  " + data);
-                                    width = int.Parse(strList[1]);
-                                    height = int.Parse(strList[2]);
-                                    name = strList[3]+ "";
-                                    size = int.Parse(strList[4]);
-                                    newMapEditor.NewMap(width, height, size);
-                                    newMapEditor.Text = name;
-                                    break;
-                                case ("F"):
-                                    Console.WriteLine("F:  " + data);
-                                    Console.WriteLine("1: " + strList[6]);
-                                    Console.WriteLine("2: " + strList[5]);
-                                    SpriteSheet sheet = new SpriteSheet(strList[2]);
-                                    sheet.UniqueID = int.Parse(strList[1]);
-                                    sheet.GridHeight = int.Parse(strList[3]);
-                                    sheet.GridWidth = int.Parse(strList[4]);
-                                    sheet.TilesHigh = int.Parse(strList[5]);
-                                    sheet.TilesWide = int.Parse(strList[6]);
-                                    sheet.Spacing = int.Parse(strList[7]);
-                                    newMapEditor.sheets.Add(sheet);
-                                    FillCurrentPallette();
-                                    break;
-                                case ("T"):
-                                    Console.WriteLine("T   " + data);
-                                    break;
-                                case ("s"):
-                                    Console.WriteLine("S   " + data);
-                                    break;
-                                case ("M"):
-                                    Console.WriteLine("M   " + data);
-                                    int tileHeight = int.Parse(strList[1]);
-                                    int tileWidth = int.Parse(strList[2]);
-                                    int uniqueID = int.Parse(strList[3]);
-                                    int palleteID = int.Parse(strList[4]);
+                                string[] strList = data.Split(',');
+                                switch (strList[0])
+                                {
+                                    case ("N"):
+                                        width = int.Parse(strList[1]);
+                                        height = int.Parse(strList[2]);
+                                        name = strList[3] + "";
+                                        size = int.Parse(strList[4]);
+                                        newMapEditor.NewMap(width, height, size);
+                                        newMapEditor.Text = name;
+                                        break;
+                                    case ("F"):
+                                        string fileTileMap = strList[2];
+                                        if (!File.Exists(fileTileMap)) {
+                                            DialogResult result = MessageBox.Show("Unable to find file " + fileTileMap + ".  Would you like to find it?",
+                                             "Find File", MessageBoxButtons.YesNo);
+                                            switch (result)
+                                            {
+                                                case DialogResult.Yes:
+                                                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                                                    {
+                                                        if (openFileDialog.FileName != "")
+                                                        {
+                                                            fileTileMap = openFileDialog.FileName;
+                                                            break;
+                                                        }
+                                                    }
+                                                    MessageBox.Show("Unable to locate file. Map unable to be loaded.");
+                                                    break;
+                                                case DialogResult.No:
+                                                    break;
+                                            };
+                                        }
+                                        SpriteSheet sheet = new SpriteSheet(fileTileMap);
+                                        sheet.UniqueID = int.Parse(strList[1]);
+                                        sheet.GridHeight = int.Parse(strList[3]);
+                                        sheet.GridWidth = int.Parse(strList[4]);
+                                        sheet.TilesHigh = int.Parse(strList[5]);
+                                        sheet.TilesWide = int.Parse(strList[6]);
+                                        sheet.Spacing = int.Parse(strList[7]);
+                                        newMapEditor.sheets.Add(sheet);
+                                        FillCurrentPallette();
+                                        break;
+                                    case ("T"):
+                                        break;
+                                    case ("s"):
+                                        break;
+                                    case ("M"):
+                                        int tileHeight = int.Parse(strList[1]);
+                                        int tileWidth = int.Parse(strList[2]);
+                                        int uniqueID = int.Parse(strList[3]);
+                                        int palleteID = int.Parse(strList[4]);
 
-                                    if (OnEditMapTile != null)
-                                    {
-                                        OnEditMapTile(tileHeight, tileWidth, uniqueID, palleteID);
-                                    }
+                                        if (OnEditMapTile != null)
+                                        {
+                                            Console.WriteLine("OnEditMapTile");
+                                            OnEditMapTile(tileHeight, tileWidth, uniqueID, palleteID);
+                                        }
 
-                                    break;
-                                default:
-                                    break;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
-                        }
-                        // Set MDI Marent
-                        // newMapEditor.MdiParent = this;
-                        // show the window
-                        newMapEditor.Show();
+                            newMapEditor.Show();
 
-                        this.welcomePanel.Visible = false;
-                        this.saveMapToolStripMenuItem.Enabled = true;
-                        this.importTilesToolStripMenuItem.Enabled = true;
-                        this.modifySelectedTileToolStripMenuItem.Enabled = true;
+                            this.welcomePanel.Visible = false;
+                            this.saveMapToolStripMenuItem.Enabled = true;
+                            this.importTilesToolStripMenuItem.Enabled = true;
+                            this.modifySelectedTileToolStripMenuItem.Enabled = true;
+                            sr.Close();
+                            fsSource.Close();
+                        }
                     }
-                    Console.WriteLine(data);
-                    Console.ReadLine();
-                    fsSource.Close();
+                    catch (Exception)
+                    {
+                        DialogResult result = MessageBox.Show("Unable to load file. Would you like to try again?",
+                        "Save", MessageBoxButtons.YesNo);
+                        switch (result)
+                        {
+                            case DialogResult.Yes:
+                                LoadExistingMap();
+                                break;
+                            case DialogResult.No:
+                                if (newMapForm != null)
+                                {
+                                    foreach (Form form in this.MdiChildren)
+                                    {
+                                        newMapForm = null;
+                                        form.Close();
+                                        form.Dispose();
+                                    }
+                                }
+                                break;
+                        };
+                    }
+                    
                 }
             }
 
+        }
+
+        private void LoadMap_Click(object sender, EventArgs e)
+        {
+            LoadExistingMap();
         }
 
         public void AddSheet(SpriteSheet sheet)
@@ -217,10 +280,9 @@ namespace Tool_Application_Assessment
                 OnFillPallette();
             }
         }
-        
 
-        private void saveMapToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        public void SaveCurrentMap() {
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             string file = "";
@@ -229,47 +291,93 @@ namespace Tool_Application_Assessment
             {
                 if (saveFileDialog.FileName != "")
                 {
-                    FileStream fs = (FileStream)saveFileDialog.OpenFile();
-
-                    Form[] forms = this.MdiChildren;
-                    byte[] newline = Encoding.ASCII.GetBytes(Environment.NewLine);
-                    Console.WriteLine(forms.Length + " child forms.");
-                    MapEditor map = forms[0] as MapEditor;
-
-
-                    byte[] ndata = Encoding.Default.GetBytes(map.ToString());
-                    fs.Write(ndata, 0, ndata.Length);
-                    fs.Write(newline, 0, newline.Length);
-
-                    // Save out Spritesheet details
-                    for (int i = 0; i < map.sheets.Count; i++)
+                    try
                     {
-                        byte[] bdata = Encoding.Default.GetBytes(map.sheets[i].ToString());
-                        fs.Write(bdata, 0, bdata.Length);
-                        fs.Write(newline, 0, newline.Length);
-                    }
+                        FileStream fs = (FileStream)saveFileDialog.OpenFile();
 
-                    //save out current Palette
-                    for (int i = 0; i < map.paletteTiles.Count; i++)
+                        Form[] forms = this.MdiChildren;
+                        byte[] newline = Encoding.ASCII.GetBytes(Environment.NewLine);
+                       // Console.WriteLine(forms.Length + " child forms.");
+                        MapEditor map = forms[0] as MapEditor;
+
+
+                        byte[] ndata = Encoding.Default.GetBytes(map.ToString());
+                        fs.Write(ndata, 0, ndata.Length);
+                        fs.Write(newline, 0, newline.Length);
+
+                        // Save out Spritesheet details
+                        for (int i = 0; i < map.sheets.Count; i++)
+                        {
+                            byte[] bdata = Encoding.Default.GetBytes(map.sheets[i].ToString());
+                            fs.Write(bdata, 0, bdata.Length);
+                            fs.Write(newline, 0, newline.Length);
+                        }
+
+                        //save out current Palette
+                        for (int i = 0; i < map.paletteTiles.Count; i++)
+                        {
+                            byte[] bdata = Encoding.Default.GetBytes(map.paletteTiles[i].ToString());
+                            fs.Write(bdata, 0, bdata.Length);
+                            fs.Write(newline, 0, newline.Length);
+                        }
+
+                        // Save out current Map
+                        for (int i = 0; i < map.map.Length; i++)
+                        {
+                            byte[] bdata = Encoding.Default.GetBytes(map.map[i].ToString());
+                            fs.Write(bdata, 0, bdata.Length);
+                            fs.Write(newline, 0, newline.Length);
+                        }
+
+                        fs.Close();
+                        Console.WriteLine("Successfully saved file!");
+                    }
+                    catch (Exception)
                     {
-                        byte[] bdata = Encoding.Default.GetBytes(map.paletteTiles[i].ToString());
-                        fs.Write(bdata, 0, bdata.Length);
-                        fs.Write(newline, 0, newline.Length);
+                        DialogResult result = MessageBox.Show("Unable to save file. Would you like to try again?",
+                       "Save", MessageBoxButtons.YesNo);
+                        switch (result)
+                        {
+                            case DialogResult.Yes:
+                                SaveCurrentMap();
+                                break;
+                            case DialogResult.No:
+                                break;
+                        };
                     }
-
-                    // Save out current Map
-                    for (int i = 0; i < map.map.Length; i++)
-                    {
-                        byte[] bdata = Encoding.Default.GetBytes(map.map[i].ToString());
-                        fs.Write(bdata, 0, bdata.Length);
-                        fs.Write(newline, 0, newline.Length);
-                    }
-
-                    fs.Close();
-                    Console.WriteLine("Successfully saved file!");
                 }
 
             }
+        }
+
+        private void saveMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveCurrentMap();
+        }
+
+        private void fillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tool = null;
+            tool = new FloodTool();
+        }
+
+        private void smallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tool = null;
+            tool = new SmallTool();
+
+        }
+
+        private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tool = null;
+            tool = new MediumTool();
+
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

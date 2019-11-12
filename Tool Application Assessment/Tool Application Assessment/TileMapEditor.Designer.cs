@@ -46,6 +46,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.HeadingLavel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.mapToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.welcomePanel.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +59,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.mapToolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -101,6 +106,7 @@
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -213,6 +219,37 @@
             this.HeadingLavel.Text = "Welcome to the Epic Tile Map Editor";
             this.HeadingLavel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // mapToolsToolStripMenuItem
+            // 
+            this.mapToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smallToolStripMenuItem,
+            this.mediumToolStripMenuItem,
+            this.fillToolStripMenuItem});
+            this.mapToolsToolStripMenuItem.Name = "mapToolsToolStripMenuItem";
+            this.mapToolsToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.mapToolsToolStripMenuItem.Text = "MapTools";
+            // 
+            // smallToolStripMenuItem
+            // 
+            this.smallToolStripMenuItem.Name = "smallToolStripMenuItem";
+            this.smallToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.smallToolStripMenuItem.Text = "Small";
+            this.smallToolStripMenuItem.Click += new System.EventHandler(this.smallToolStripMenuItem_Click);
+            // 
+            // mediumToolStripMenuItem
+            // 
+            this.mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
+            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mediumToolStripMenuItem.Text = "Medium";
+            this.mediumToolStripMenuItem.Click += new System.EventHandler(this.mediumToolStripMenuItem_Click);
+            // 
+            // fillToolStripMenuItem
+            // 
+            this.fillToolStripMenuItem.Name = "fillToolStripMenuItem";
+            this.fillToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fillToolStripMenuItem.Text = "Fill";
+            this.fillToolStripMenuItem.Click += new System.EventHandler(this.fillToolStripMenuItem_Click);
+            // 
             // TileMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,5 +289,9 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importTilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modifySelectedTileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mapToolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem smallToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mediumToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fillToolStripMenuItem;
     }
 }

@@ -11,6 +11,18 @@ namespace Tool_Application_Assessment
 {
     public partial class NewMapForm : Form
     {
+
+        private const int WS_SYSMENU = 0x80000;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style &= ~WS_SYSMENU;
+                return cp;
+            }
+        }
+
         public string name;
         public int height, width, size;
         public NewMapForm()
