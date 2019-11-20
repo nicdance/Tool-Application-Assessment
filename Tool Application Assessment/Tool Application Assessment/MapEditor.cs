@@ -181,7 +181,6 @@ namespace Tool_Application_Assessment
          private void TileMouseDown(object sender, MouseEventArgs e)
          {
              PictureBox box = sender as PictureBox;
-             // this.DoDragDrop(box.Image, DragDropEffects.All);
          }
 
          private void TileBlockClicked(object sender, EventArgs e)
@@ -208,19 +207,6 @@ namespace Tool_Application_Assessment
 
          void OnTileClick(object sender, MouseEventArgs e)
          {
-
-             /*
-              this.MdiParent = parentForm;
-             InitializeComponent();
-             MapPanel.HorizontalScroll.Enabled = true;
-             MapPanel.VerticalScroll.Enabled = true;
-
-             // assign to event listeners
-             parentForm.OnAddSpriteSheet += AddNewSheet;
-             parentForm.OnFillPallette += PopulatePalette;
-             parentForm.OnRefreshMap += RefreshMap;
-             parentForm.OnEditMapTile += EditMapTile;
-              */
             try
             {
                 if (CurrentTile != null)
@@ -228,11 +214,6 @@ namespace Tool_Application_Assessment
                     Point scrolledPoint = new Point(e.X - MapPanel.AutoScrollPosition.X,
                                                e.Y - MapPanel.AutoScrollPosition.Y);
                     int tile = ((int)(scrolledPoint.X / size + scrolledPoint.Y / size * mapWidth));
-                    // map[tile].Picture.Image = null;
-                    // map[tile].Picture.Image = CurrentTile.Picture.Image;
-                    // map[tile].PalletteID = CurrentTile.UniqueID;
-                    // MapTile[] map, int width, int startPosition, PaletteTile CurrentTile
-                    //this.MdiParent;
                     TileMapEditor parent = this.MdiParent as TileMapEditor;
                     parent.tool.PaintTiles(ref map, mapWidth, tile, CurrentTile);
 
@@ -240,8 +221,7 @@ namespace Tool_Application_Assessment
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                //MessageBox.Show("");
+                MessageBox.Show("Error: " + ex.GetType());
             }
         }
 

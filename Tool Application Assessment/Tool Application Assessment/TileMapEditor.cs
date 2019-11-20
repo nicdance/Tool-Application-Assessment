@@ -14,7 +14,7 @@ namespace Tool_Application_Assessment
     {
         public NewMapForm newMapForm;
         public SpriteSheet Spritesheet { get; set; }
-        public MapTools tool { get; set; } = new SmallTool();
+        public IMapTools tool { get; set; } = new SmallTool();
 
         public delegate void AddSpriteSheet(SpriteSheet sheet);
         public event AddSpriteSheet OnAddSpriteSheet;
@@ -113,12 +113,13 @@ namespace Tool_Application_Assessment
             this.welcomePanel.Visible = false;
             this.saveMapToolStripMenuItem.Enabled = true;
             this.importTilesToolStripMenuItem.Enabled = true;
+            this.importSingleTileToolStripMenuItem.Enabled = true;
             this.modifySelectedTileToolStripMenuItem.Enabled = true;
         }
 
         private void GettingStarted_Click(object sender, EventArgs e)
         {
-
+            System.Diagnostics.Process.Start("https://chaosshard.com.au/TileMapEditorAssessment/");
         }
 
         private void importTilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -225,6 +226,7 @@ namespace Tool_Application_Assessment
                             this.welcomePanel.Visible = false;
                             this.saveMapToolStripMenuItem.Enabled = true;
                             this.importTilesToolStripMenuItem.Enabled = true;
+                            this.importSingleTileToolStripMenuItem.Enabled = true;
                             this.modifySelectedTileToolStripMenuItem.Enabled = true;
                             sr.Close();
                             fsSource.Close();
@@ -378,6 +380,29 @@ namespace Tool_Application_Assessment
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void importSingleTileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (openFileDialog.CheckFileExists == true)
+                    {
+                        SpriteSheet sheet = new SpriteSheet(openFileDialog.FileName);
+                        sheet.GridHeight = sheet.Image.Size.Height;
+                        sheet.GridWidth = sheet.Image.Size.Width;
+                        AddSheet(sheet);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to import file.");
+            }
         }
     }
 }
