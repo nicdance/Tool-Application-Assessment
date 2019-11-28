@@ -11,17 +11,17 @@ namespace Tool_Application_Assessment
 {
     public partial class MapEditor : Form
     {
-        public int size = 64;
-        public MapTile[] map;
-        public List<PaletteTile> paletteTiles = new List<PaletteTile>();
-        public List<PictureBox> tiles = new List<PictureBox>();
-        public List<SpriteSheet> sheets = new List<SpriteSheet>();
-        int mapWidth = 0;
-        int mapHeight = 0;
+        public int size = 64;                                               // The size of each tile in the map
+        public MapTile[] map;                                               // array of each MapTile int he current map
+        public List<PaletteTile> paletteTiles = new List<PaletteTile>();    // a list of all PalletteTiles
+      //  public List<PictureBox> tiles = new List<PictureBox>();             
+        public List<SpriteSheet> sheets = new List<SpriteSheet>();          // the List of all spritesheets used in this map
+        int mapWidth = 0;                                                   // How many MapTile's wide the map is
+        int mapHeight = 0;                                                  // How many MapTile's Heigh the map is
 
 
-        public PaletteTile CurrentTile { get; private set; }
-        public bool Painting { get; private set; } = false;
+        public PaletteTile CurrentTile { get; private set; }                // Reference to the current PalleteTile selected
+        public bool Painting { get; private set; } = false;                 // check to see if the user is clicked ad dragging there mouse arround the map area to paint.
 
         public MapEditor(TileMapEditor parentForm)
         {
@@ -33,32 +33,30 @@ namespace Tool_Application_Assessment
             // assign to event listeners
             parentForm.OnAddSpriteSheet += AddNewSheet;
             parentForm.OnFillPallette += PopulatePalette;
-            parentForm.OnRefreshMap += RefreshMap;
             parentForm.OnEditMapTile += EditMapTile;
            
 
         }
-        // Destructor
+        // Called when current map is closed to ensure any active listeners are removed.
         public void ClearListeners()
         {
-            Console.WriteLine("ClearListeners.");
             TileMapEditor parentForm = this.MdiParent as TileMapEditor;
             // assign to event listeners
             parentForm.OnAddSpriteSheet -= AddNewSheet;
             parentForm.OnFillPallette -= PopulatePalette;
-            parentForm.OnRefreshMap -= RefreshMap;
             parentForm.OnEditMapTile -= EditMapTile;
         }
 
+        // Adds new sheet to the map and poulates the palette
         public void AddNewSheet(SpriteSheet sheet) {
              sheet.UniqueID = sheets.Count;
              sheets.Add(sheet);
              PopulatePalette();
          }
+
+        // Updates a selected maptile with details of its new  palette
          public void EditMapTile(int height, int width, int ID, int paletteID)
          {
-            Console.WriteLine("EditMapTile");
-            Console.WriteLine(map.Length  +":" + ID);
             try
             {
 
@@ -78,6 +76,7 @@ namespace Tool_Application_Assessment
 
          }
 
+        /*
          public void RefreshMap()
          {
              foreach (var box in MapPanel.Controls)
@@ -90,7 +89,9 @@ namespace Tool_Application_Assessment
              }
 
          }
+         */
 
+         // clears the palette and repopulates it with all current tiles.
          public void PopulatePalette()
          {
              foreach (var box in tileFlowPanel.Controls)
@@ -103,13 +104,8 @@ namespace Tool_Application_Assessment
              }
              for (int ii = 0; ii < sheets.Count; ii++)
              {
-                 //Console.WriteLine(" No of elements: " + sheets[ii].TilesHigh * sheets[ii].TilesWide);
-                 //Console.WriteLine(sheets[ii].TilesWide);
-                 //Console.WriteLine(sheets[ii].TilesHigh);
-
                  for (int i = 0; i < sheets[ii].TilesHigh * sheets[ii].TilesWide; i++)
                  {
-                     //Console.WriteLine(i);
                      PaletteTile palette = new PaletteTile();
                      palette.UniqueID = paletteTiles.Count;
                      palette.SpriteSheetID = sheets[ii].UniqueID;
@@ -120,7 +116,7 @@ namespace Tool_Application_Assessment
                      box.SizeMode = PictureBoxSizeMode.Zoom;
                      box.Image = drawArea;
                      box.Enabled = true;
-                     box.MouseDown += new MouseEventHandler(TileMouseDown);
+                     //box.MouseDown += new MouseEventHandler(TileMouseDown);
                      palette.Picture = box;
 
                      Graphics g = Graphics.FromImage(drawArea);
@@ -145,17 +141,16 @@ namespace Tool_Application_Assessment
                      tileFlowPanel.Controls.Add(palette.Picture);
                      paletteTiles.Add(palette);
                  }
-
              }
          }
 
+        // Sets up the  new map and positions all tiles.
          public void NewMap(int width, int height, int mapSize)
          {
              mapWidth = width;
              mapHeight = height;
              size = mapSize;
              MapPanel.Padding = new Padding(0);
-             Bitmap image = new Bitmap("img\\BlackSquare.png");
              map = new MapTile[width * height];
              for (int i = 0; i < width * height; i++)
              {
@@ -166,7 +161,7 @@ namespace Tool_Application_Assessment
                  tile.Picture = new PictureBox();
                  tile.Picture.Size = new Size(size, size);
                  tile.Picture.SizeMode = PictureBoxSizeMode.Zoom;
-                 tile.Picture.Image = image;
+                tile.Picture.BorderStyle = BorderStyle.FixedSingle;
                  tile.Picture.Location = new System.Drawing.Point((i % width) * size, ((int)(i/ width)) * size);
                  map[i] = tile;
                  MapPanel.Controls.Add(tile.Picture);
@@ -183,6 +178,7 @@ namespace Tool_Application_Assessment
              PictureBox box = sender as PictureBox;
          }
 
+         // Onclicking a Palette tile  the current tile is set to it and  the border style of the current palette tile clicked is updated.
          private void TileBlockClicked(object sender, EventArgs e)
          {
              if (CurrentTile != null)
@@ -205,6 +201,7 @@ namespace Tool_Application_Assessment
              }
          }
 
+         // On clicking a tile on the map if there is a current tile then the tle i changed to the current tile.
          void OnTileClick(object sender, MouseEventArgs e)
          {
             try
@@ -230,6 +227,7 @@ namespace Tool_Application_Assessment
         }
              
 
+        // On mouse down whjile on map. Painting is set to  true and ontilclick is called
         private void MapPanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
@@ -239,6 +237,7 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // when the mouse over the mapo is released painting it set to false. 
         private void MapPanel_MouseUp(object sender, MouseEventArgs e)
         {
             if (Painting)
@@ -247,6 +246,7 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // While on the map panel and th emouse is moving if the painting is true it will continue to change the tile on hover.
         private void MapPanel_MouseMove(object sender, MouseEventArgs e)
         {
             if (Painting)
@@ -254,6 +254,8 @@ namespace Tool_Application_Assessment
                 OnTileClick(sender, e);
             }
         }
+
+        // Overriden ToString to allow for correct format when saving out to file.
         public override string ToString()
         {
             return "N," + mapWidth + "," + mapHeight + "," + Text + "," + size;

@@ -37,6 +37,7 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSingleTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifySelectedTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.HeadingLavel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.importSingleTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.welcomePanel.SuspendLayout();
             this.SuspendLayout();
@@ -127,6 +127,14 @@
             this.importTilesToolStripMenuItem.Text = "Import Tiles";
             this.importTilesToolStripMenuItem.Click += new System.EventHandler(this.importTilesToolStripMenuItem_Click);
             // 
+            // importSingleTileToolStripMenuItem
+            // 
+            this.importSingleTileToolStripMenuItem.Enabled = false;
+            this.importSingleTileToolStripMenuItem.Name = "importSingleTileToolStripMenuItem";
+            this.importSingleTileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importSingleTileToolStripMenuItem.Text = "Import Single Tile";
+            this.importSingleTileToolStripMenuItem.Click += new System.EventHandler(this.importSingleTileToolStripMenuItem_Click);
+            // 
             // modifySelectedTileToolStripMenuItem
             // 
             this.modifySelectedTileToolStripMenuItem.Enabled = false;
@@ -155,21 +163,21 @@
             // smallToolStripMenuItem
             // 
             this.smallToolStripMenuItem.Name = "smallToolStripMenuItem";
-            this.smallToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.smallToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.smallToolStripMenuItem.Text = "Small";
             this.smallToolStripMenuItem.Click += new System.EventHandler(this.smallToolStripMenuItem_Click);
             // 
             // mediumToolStripMenuItem
             // 
             this.mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
-            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.mediumToolStripMenuItem.Text = "Medium";
             this.mediumToolStripMenuItem.Click += new System.EventHandler(this.mediumToolStripMenuItem_Click);
             // 
             // fillToolStripMenuItem
             // 
             this.fillToolStripMenuItem.Name = "fillToolStripMenuItem";
-            this.fillToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fillToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.fillToolStripMenuItem.Text = "Fill";
             this.fillToolStripMenuItem.Click += new System.EventHandler(this.fillToolStripMenuItem_Click);
             // 
@@ -247,18 +255,10 @@
             this.HeadingLavel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HeadingLavel.Location = new System.Drawing.Point(193, 111);
             this.HeadingLavel.Name = "HeadingLavel";
-            this.HeadingLavel.Size = new System.Drawing.Size(399, 26);
+            this.HeadingLavel.Size = new System.Drawing.Size(345, 26);
             this.HeadingLavel.TabIndex = 7;
-            this.HeadingLavel.Text = "Welcome to the Epic Tile Map Editor";
+            this.HeadingLavel.Text = "Welcome to the Tile Map Editor";
             this.HeadingLavel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // importSingleTileToolStripMenuItem
-            // 
-            this.importSingleTileToolStripMenuItem.Enabled = false;
-            this.importSingleTileToolStripMenuItem.Name = "importSingleTileToolStripMenuItem";
-            this.importSingleTileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.importSingleTileToolStripMenuItem.Text = "Import Single Tile";
-            this.importSingleTileToolStripMenuItem.Click += new System.EventHandler(this.importSingleTileToolStripMenuItem_Click);
             // 
             // TileMapEditor
             // 
@@ -270,7 +270,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "TileMapEditor";
-            this.Text = "Epic Tile Map Editor";
+            this.Text = "Tile Map Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.welcomePanel.ResumeLayout(false);

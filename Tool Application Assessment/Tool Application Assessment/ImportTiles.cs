@@ -11,15 +11,14 @@ namespace Tool_Application_Assessment
 {
     public partial class ImportTiles : Form
     {
-        public SpriteSheet Spritesheet { get; private set; }
-        public Bitmap drawArea;
-        public PictureBox pictureBox;
+        public SpriteSheet Spritesheet { get; private set; }            // The sprite sheet been impoted
+        public Bitmap drawArea;                                         // USed to determine area to draw grid onto tilemap
+        public PictureBox pictureBox;                                   // Picturebox that the imported image is added while determining sizes.
 
-        public Point CurrentTile { get; private set; } = new Point();
 
-        public bool TilesLoaded { get; private set; } = false;
+        public bool TilesLoaded { get; private set; } = false;          // Cehck if  a file has been loaded before importina.
 
-        public string Filename
+        public string Filename                                          // File name of the Spritesheee been imported.
         {
             get { return (Spritesheet != null) ? Spritesheet.Filename : string.Empty; }
         }
@@ -31,9 +30,11 @@ namespace Tool_Application_Assessment
             pictureBox.Location = new Point(0, 0);
         }
 
+        // Allows the user to choose the tilemap to import.
         private void buttonLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -50,6 +51,8 @@ namespace Tool_Application_Assessment
                 }
             }
         }
+
+        // Draws a grid on the map to visual show how the tiles will be cut up.
         private void DrawGrid()
         {
             pictureBox.DrawToBitmap(drawArea, pictureBox.Bounds);
@@ -61,7 +64,6 @@ namespace Tool_Application_Assessment
 
             if (Spritesheet == null)
                 return;
-
 
             g.DrawImage(Spritesheet.Image, 0, 0);
 
@@ -78,17 +80,12 @@ namespace Tool_Application_Assessment
             {
                 g.DrawLine(pen, x, 0, x, height);
             }
-
-            Pen highlight = new Pen(Brushes.Red);
-            g.DrawRectangle(highlight, CurrentTile.X * (Spritesheet.GridWidth + Spritesheet.Spacing),
-                CurrentTile.Y * (Spritesheet.GridHeight + Spritesheet.Spacing),
-                Spritesheet.GridWidth + Spritesheet.Spacing, Spritesheet.GridHeight + Spritesheet.Spacing);
-
             g.Dispose();
 
             pictureBox.Image = drawArea;
         }
 
+        // Called when the width text is changed. the Grid on the map is redrawn
         private void textBoxWidth_TextChanged(object sender, EventArgs e)
         {
 
@@ -105,6 +102,8 @@ namespace Tool_Application_Assessment
             }
         }
 
+
+        // Called when the height text is changed. the Grid on the map is redrawn
         private void textBoxHeight_TextChanged(object sender, EventArgs e)
         {
             if (TilesLoaded)
@@ -120,6 +119,8 @@ namespace Tool_Application_Assessment
             }
         }
 
+
+        // Called when the spacing text is changed. the Grid on the map is redrawn
         private void textBoxSpacing_TextChanged(object sender, EventArgs e)
         {
             if (TilesLoaded)
@@ -135,26 +136,13 @@ namespace Tool_Application_Assessment
             }
         }
 
+        //
         private void SpriteSheetForm_Shown(object sender, EventArgs e)
         {
             DrawGrid();
         }
 
-        private void PictureBoxClicked(object sender, EventArgs e)
-        {
-            if (Spritesheet == null)
-                return;
-
-            // get tile coordinate of click
-            if (e.GetType() == typeof(MouseEventArgs))
-            {
-                MouseEventArgs mouse = e as MouseEventArgs;
-                CurrentTile = new Point(mouse.X / (Spritesheet.GridWidth + Spritesheet.Spacing),
-                    mouse.Y / (Spritesheet.GridHeight + Spritesheet.Spacing));
-                DrawGrid();
-            }
-        }
-
+        // Imports the current spritesheet and its settings into the active map.
         private void ImportButton_Click(object sender, EventArgs e)
         {
             if (Spritesheet == null)
@@ -164,6 +152,8 @@ namespace Tool_Application_Assessment
             this.Close();
         }
 
+
+        // Called when the box wide  text is changed. The spritesheet details are updated acordingly.
         private void textBoxWide_TextChanged(object sender, EventArgs e)
         {
             if (TilesLoaded)
@@ -177,6 +167,7 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // Called when the box high  text is changed. The spritesheet details are updated acordingly.
         private void textBoxHigh_TextChanged(object sender, EventArgs e)
         {
             if (TilesLoaded)
@@ -193,6 +184,9 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // Called when a file si dragged into the map space.
+        // If file is an image it will be added
+        // if file is not an image an error msg will display.
         private void spritePanel_DragDrop(object sender, DragEventArgs e)
         {
             try

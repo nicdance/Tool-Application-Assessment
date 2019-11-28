@@ -7,6 +7,7 @@ namespace Tool_Application_Assessment
 {
     public class MediumTool : IMapTools
     {
+        // implements IMapTools PaintTiles to reflect a medium paint,
         public void PaintTiles(ref MapTile[] map, int width, int startPosition, PaletteTile CurrentTile)
         {
 

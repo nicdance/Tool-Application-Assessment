@@ -11,7 +11,7 @@ namespace Tool_Application_Assessment
 {
     public partial class NewMapForm : Form
     {
-
+        // This section removes the right hand corner window controls.
         private const int WS_SYSMENU = 0x80000;
         protected override CreateParams CreateParams
         {
@@ -23,13 +23,15 @@ namespace Tool_Application_Assessment
             }
         }
 
-        public string name;
-        public int height, width, size;
+        public string name;                 // The name of the new map
+        public int height, width, size;     // height  width and tile size of the new map
+
         public NewMapForm()
         {
             InitializeComponent();
         }
 
+        // Checks all values before closing the window to create the new map.
         private void createMapButton_Click(object sender, EventArgs e)
         {
             if (nameBox.Text == "" || widthBox.Text == "" || heightBox.Text == "")

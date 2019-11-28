@@ -13,21 +13,13 @@ namespace Tool_Application_Assessment
     public partial class TileMapEditor : Form
     {
         public NewMapForm newMapForm;
-        public SpriteSheet Spritesheet { get; set; }
-        public IMapTools tool { get; set; } = new SmallTool();
+        public IMapTools tool { get; set; } = new SmallTool();      // Sets default tool to SmallTool
 
-        public delegate void AddSpriteSheet(SpriteSheet sheet);
+        public delegate void AddSpriteSheet(SpriteSheet sheet);     // Sets up event which is calledwhen a new sprite sheet is added 
         public event AddSpriteSheet OnAddSpriteSheet;
 
-        public delegate void FillPallette();
+        public delegate void FillPallette();                        // Event called when the palette needs to be refreshed and filled
         public event FillPallette OnFillPallette;
-
-        public delegate void RefreshMap();
-        public event RefreshMap OnRefreshMap;
-
-        public delegate void DrawOnMap( int width, int startPosition);
-        public event DrawOnMap OnDrawOnMap;
-
 
         public delegate void EditMapTile(int height, int width, int ID, int paletteID);
         public event EditMapTile OnEditMapTile;
@@ -35,14 +27,12 @@ namespace Tool_Application_Assessment
         public TileMapEditor()
         {
             InitializeComponent();
-            Spritesheet = null;
-           // OnDrawOnMap += DrawOnTiles();
         }
-        // MapTile[] tileMap, int width, int startPosition, PaletteTile currentTile
-
+        /*
         public void DrawOnTiles(int width, int startPosition) {
 
         }
+
         private void OnMenuHover(object sender, EventArgs e)
         {
 
@@ -53,41 +43,46 @@ namespace Tool_Application_Assessment
         {
 
         }
+        */
 
+        // Calles LoadExistingMap on clicing the relevant buttons.
         private void LoadMap_MouseClick(object sender, MouseEventArgs e)
         {
             LoadExistingMap();
         }
 
+
+        // Called on closing current project 
+        // clears listeners and checks if user wishes to save the current Map
         public void CheckSaveExisiting() {
             //if (newMapForm != null)
+            //
+            foreach (Form form in this.MdiChildren)
             {
-                foreach (Form form in this.MdiChildren)
+                Console.WriteLine(form.GetType().Name);
+                if (form.GetType().Name == "MapEditor")
                 {
-                    Console.WriteLine(form.GetType().Name);
-                    if (form.GetType().Name == "MapEditor")
+                    DialogResult result = MessageBox.Show("Would you like to Save your your current Map?",
+                "Save", MessageBoxButtons.YesNo);
+                    switch (result)
                     {
-                        DialogResult result = MessageBox.Show("Would you like to Save your your current Map?",
-                  "Save", MessageBoxButtons.YesNo);
-                        switch (result)
-                        {
-                            case DialogResult.Yes:
-                                SaveCurrentMap();
-                                break;
-                            case DialogResult.No:
-                                break;
-                        };
-                        newMapForm = null;
-                        MapEditor mapEditor = form as MapEditor;
-                        mapEditor.ClearListeners();
-                    }
-                    form.Close();
-                    form.Dispose();
+                        case DialogResult.Yes:
+                            SaveCurrentMap();
+                            break;
+                        case DialogResult.No:
+                            break;
+                    };
+                    newMapForm = null;
+                    MapEditor mapEditor = form as MapEditor;
+                    mapEditor.ClearListeners();
+                }
+                form.Close();
+                form.Dispose();
 
-                }    
-            }
+            } 
         }
 
+        // Creates a new mao based the height width and name specified by the user
         private void CreateNewMap_Click(object sender, EventArgs e)
         {
             int mapWidth = 20;
@@ -117,11 +112,13 @@ namespace Tool_Application_Assessment
             this.modifySelectedTileToolStripMenuItem.Enabled = true;
         }
 
+        // Loads the wiki help page
         private void GettingStarted_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://chaosshard.com.au/TileMapEditorAssessment/");
         }
 
+        // Displays the import tiles window.
         private void importTilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ImportTiles tileImport = new ImportTiles();
@@ -132,11 +129,13 @@ namespace Tool_Application_Assessment
             tileImport.Show();
         }
 
+        // loads an existing map
         public void LoadExistingMap()
         {
             CheckSaveExisiting();
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "txt files (*.txt)|*.txt";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -176,6 +175,8 @@ namespace Tool_Application_Assessment
                                             switch (result)
                                             {
                                                 case DialogResult.Yes:
+                                                    openFileDialog.FileName= "";
+                                                    openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;";
                                                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                                                     {
                                                         if (openFileDialog.FileName != "")
@@ -212,7 +213,6 @@ namespace Tool_Application_Assessment
 
                                         if (OnEditMapTile != null)
                                         {
-                                            Console.WriteLine("OnEditMapTile");
                                             OnEditMapTile(tileHeight, tileWidth, uniqueID, palleteID);
                                         }
 
@@ -260,11 +260,13 @@ namespace Tool_Application_Assessment
 
         }
 
+        // called on lcicking menu to load map
         private void LoadMap_Click(object sender, EventArgs e)
         {
             LoadExistingMap();
         }
 
+        // calls OnAddSpriteSheet event to add a sptite sheet to the current map
         public void AddSheet(SpriteSheet sheet)
         {
 
@@ -274,7 +276,7 @@ namespace Tool_Application_Assessment
             }
         }
 
-
+        // calls OnFillPallette to populate the pallette of the current map
         public void FillCurrentPallette()
         {
             if (OnFillPallette != null)
@@ -283,9 +285,15 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // Saves out the cutrrent map to file
         public void SaveCurrentMap() {
 
+            Form[] forms = this.MdiChildren;
+            byte[] newline = Encoding.ASCII.GetBytes(Environment.NewLine);
+            MapEditor map = forms[0] as MapEditor;
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = map.Text + ".txt";
 
             string file = "";
 
@@ -296,12 +304,6 @@ namespace Tool_Application_Assessment
                     try
                     {
                         FileStream fs = (FileStream)saveFileDialog.OpenFile();
-
-                        Form[] forms = this.MdiChildren;
-                        byte[] newline = Encoding.ASCII.GetBytes(Environment.NewLine);
-                       // Console.WriteLine(forms.Length + " child forms.");
-                        MapEditor map = forms[0] as MapEditor;
-
 
                         byte[] ndata = Encoding.Default.GetBytes(map.ToString());
                         fs.Write(ndata, 0, ndata.Length);
@@ -352,17 +354,20 @@ namespace Tool_Application_Assessment
             }
         }
 
+        // called onclicking menu which calls the avecurrent mao function
         private void saveMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveCurrentMap();
         }
 
+        // Sets current tool to the floodtool
         private void fillToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tool = null;
             tool = new FloodTool();
         }
 
+        // Sets current tool to the small tool
         private void smallToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tool = null;
@@ -370,6 +375,7 @@ namespace Tool_Application_Assessment
 
         }
 
+        // Sets current tool to the medium tool
         private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tool = null;
@@ -377,16 +383,21 @@ namespace Tool_Application_Assessment
 
         }
 
+        // Quits the app
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+
+        // Allows ht euser ti import an individual tile as apposed to a tile map.
         private void importSingleTileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
+
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {

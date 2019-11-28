@@ -5,18 +5,15 @@ namespace Tool_Application_Assessment
 {
     public class SpriteSheet
     {
-        public int UniqueID { get; set; }
-        public string Path { get; private set; }
+        public int UniqueID { get; set; }               // ID of the spritresheet
+        public string Path { get; private set; }        // Path to the filesheet image
+        public int GridWidth { get; set; } = 32;        // width of the tile
+        public int GridHeight { get; set; } = 32;       // height of the tile
+        public int TilesHigh { get; set; } = 1;         // number of tiles high
+        public int TilesWide { get; set; } = 1;         // number of tiles wide
+        public int Spacing { get; set; } = 1;           // any spacing between tiles
 
-        public int GridWidth { get; set; } = 32;
-        public int GridHeight { get; set; } = 32;
-        public int TilesHigh { get; set; } = 1;
-        public int TilesWide { get; set; } = 1;
-        public int Spacing { get; set; } = 1;
-
-
-
-        public string Filename
+        public string Filename                          // retreives the file name out of the path
         {
             get { return Path.Substring(Path.LastIndexOf('\\')); }
         }
@@ -49,6 +46,7 @@ namespace Tool_Application_Assessment
         }
 
 
+        // Overriden ToString to allow for correct format when saving out to file.
         public override string ToString()
         {
             return "F," + UniqueID + "," + Path + "," + GridWidth + "," + GridHeight + "," + TilesHigh + "," + TilesWide + "," + Spacing;
