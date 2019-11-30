@@ -28,24 +28,8 @@ namespace Tool_Application_Assessment
         {
             InitializeComponent();
         }
-        /*
-        public void DrawOnTiles(int width, int startPosition) {
 
-        }
-
-        private void OnMenuHover(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void OnMenuExit(object sender, EventArgs e)
-        {
-
-        }
-        */
-
-        // Calles LoadExistingMap on clicing the relevant buttons.
+        // Calles LoadExistingMap on clicking the relevant buttons.
         private void LoadMap_MouseClick(object sender, MouseEventArgs e)
         {
             LoadExistingMap();
@@ -109,7 +93,6 @@ namespace Tool_Application_Assessment
             this.saveMapToolStripMenuItem.Enabled = true;
             this.importTilesToolStripMenuItem.Enabled = true;
             this.importSingleTileToolStripMenuItem.Enabled = true;
-            this.modifySelectedTileToolStripMenuItem.Enabled = true;
         }
 
         // Loads the wiki help page
@@ -227,7 +210,6 @@ namespace Tool_Application_Assessment
                             this.saveMapToolStripMenuItem.Enabled = true;
                             this.importTilesToolStripMenuItem.Enabled = true;
                             this.importSingleTileToolStripMenuItem.Enabled = true;
-                            this.modifySelectedTileToolStripMenuItem.Enabled = true;
                             sr.Close();
                             fsSource.Close();
                         }
